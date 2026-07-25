@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Paper for LLMs: Markdown Converter"
+  },
+  "extensionShortName": {
+    "message": "Paper4LLM"
+  },
+  "extensionDescription": {
+    "message": "Convert research articles to clean Markdown with linked citations, references, figures, tables, and formulas."
+  },
+  "actionTitle": {
+    "message": "Convert this paper to Markdown"
+  }
+}

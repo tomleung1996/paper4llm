@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Paper Markdown browser tests</title>
+    <style>
+      body { max-width: 960px; margin: 32px auto; font: 15px/1.5 system-ui, sans-serif; }
+      .pass { color: #087443; }
+      .fail { color: #a1271d; }
+      pre { padding: 16px; overflow: auto; background: #f4f6f5; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Paper Markdown browser tests</h1>
+    <p id="summary">Running…</p>
+    <ul id="assertions"></ul>
+    <h2>Generated Markdown</h2>
+    <pre id="output"></pre>
+    <script src="../src/i18n.js"></script>
+    <script src="../src/core.js"></script>
+    <script src="../src/sciencedirect.js"></script>
+    <script src="../src/wiley.js"></script>
+    <script src="../src/springernature.js"></script>
+    <script src="../src/science.js"></script>
+    <script src="browser-test.js"></script>
+  </body>
+</html>

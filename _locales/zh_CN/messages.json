@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Paper for LLMs：论文转 Markdown"
+  },
+  "extensionShortName": {
+    "message": "Paper4LLM"
+  },
+  "extensionDescription": {
+    "message": "将论文页面转换为干净的 Markdown，并保留文内引用、参考文献、图片、表格和公式。"
+  },
+  "actionTitle": {
+    "message": "将当前论文转换为 Markdown"
+  }
+}

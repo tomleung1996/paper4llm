@@ -1,0 +1,4 @@
+backups/
+assets/icon-concepts/
+dist/*.zip
+.DS_Store
