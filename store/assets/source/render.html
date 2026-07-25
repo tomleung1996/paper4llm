@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paper for LLMs store artwork</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #233033;
+        background: #efede6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body,
+      #artboard {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body.zh {
+        font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .brand-icon {
+        display: block;
+        object-fit: contain;
+      }
+
+      .promo {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 150px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #f4f2eb;
+      }
+
+      .promo::before {
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgb(35 48 51 / 12%);
+        content: "";
+        pointer-events: none;
+      }
+
+      .promo-copy {
+        z-index: 1;
+        padding: 31px 0 27px 32px;
+      }
+
+      .promo-kicker,
+      .shot-kicker {
+        color: #47616b;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .promo h1 {
+        width: 250px;
+        margin: 27px 0 10px;
+        color: #1f2b2e;
+        font-size: 30px;
+        font-weight: 760;
+        letter-spacing: -0.035em;
+        line-height: 1.03;
+      }
+
+      .promo p {
+        width: 245px;
+        margin: 0;
+        color: #66716f;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .promo-rule {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 9px;
+        background: #304f5a;
+      }
+
+      .promo-visual {
+        position: relative;
+        display: grid;
+        place-items: center;
+        background: #304f5a;
+      }
+
+      .promo-visual::before,
+      .promo-visual::after {
+        position: absolute;
+        left: -18px;
+        width: 42px;
+        height: 1px;
+        background: #89a2aa;
+        content: "";
+      }
+
+      .promo-visual::before {
+        top: 93px;
+      }
+
+      .promo-visual::after {
+        top: 187px;
+      }
+
+      .promo .brand-icon {
+        width: 128px;
+        height: 128px;
+        filter: drop-shadow(0 13px 14px rgb(18 31 52 / 28%));
+      }
+
+      .store-shot {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #efede6;
+      }
+
+      .store-shot::after {
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgb(32 44 47 / 10%);
+        content: "";
+        pointer-events: none;
+      }
+
+      .shot-brand {
+        position: absolute;
+        top: 37px;
+        left: 64px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: #283638;
+        font-size: 16px;
+        font-weight: 720;
+      }
+
+      .shot-brand .brand-icon {
+        width: 35px;
+        height: 35px;
+      }
+
+      .shot-number {
+        position: absolute;
+        top: 43px;
+        right: 64px;
+        color: #7c8582;
+        font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .shot-heading {
+        position: absolute;
+        top: 96px;
+        left: 64px;
+        max-width: 1050px;
+      }
+
+      .shot-heading h1 {
+        margin: 10px 0 7px;
+        color: #1f2b2e;
+        font-size: 42px;
+        font-weight: 760;
+        letter-spacing: -0.04em;
+        line-height: 1.07;
+      }
+
+      .shot-heading p {
+        margin: 0;
+        color: #687370;
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .browser-stage {
+        position: absolute;
+        right: 64px;
+        bottom: 48px;
+        left: 64px;
+        height: 520px;
+        overflow: hidden;
+        border: 1px solid #c5cbc7;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 18px 42px rgb(42 51 52 / 12%);
+      }
+
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        height: 34px;
+        padding: 0 14px;
+        border-bottom: 1px solid #dfe3e0;
+        background: #f8f7f3;
+      }
+
+      .browser-dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .browser-dots i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #c5cbc8;
+      }
+
+      .address {
+        width: 430px;
+        margin: auto;
+        padding: 4px 12px;
+        border: 1px solid #e0e3e0;
+        border-radius: 4px;
+        color: #8a918f;
+        background: #fff;
+        font-size: 10px;
+        text-align: center;
+      }
+
+      .browser-content {
+        display: grid;
+        grid-template-columns: 1fr 460px;
+        height: calc(100% - 34px);
+      }
+
+      .paper-page {
+        position: relative;
+        padding: 42px 50px 40px;
+        overflow: hidden;
+        border-right: 1px solid #d9ddda;
+        background: #fff;
+      }
+
+      .journal-label {
+        color: #6e7c7a;
+        font: 700 10px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .paper-page h2 {
+        max-width: 570px;
+        margin: 15px 0 12px;
+        color: #202a2c;
+        font-family: Georgia, "Songti SC", serif;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        line-height: 1.18;
+      }
+
+      .authors {
+        margin-bottom: 29px;
+        color: #687471;
+        font-size: 12px;
+      }
+
+      .section-title {
+        margin: 0 0 12px;
+        color: #263638;
+        font-size: 15px;
+        font-weight: 750;
+      }
+
+      .paper-page p {
+        max-width: 620px;
+        margin: 0 0 14px;
+        color: #4d5958;
+        font-family: Georgia, "Songti SC", serif;
+        font-size: 14px;
+        line-height: 1.66;
+      }
+
+      .citation {
+        color: #355f73;
+        font-family: inherit;
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-color: #89a9b6;
+        text-underline-offset: 2px;
+      }
+
+      .popup-demo {
+        padding: 18px;
+        background: #f6f5f1;
+      }
+
+      .popup-title-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 13px;
+        border-bottom: 1px solid #d8dcda;
+      }
+
+      .popup-title-row h3 {
+        margin: 0;
+        color: #202b2d;
+        font-size: 19px;
+        letter-spacing: -0.02em;
+      }
+
+      .popup-title-row p {
+        margin: 4px 0 0;
+        color: #707977;
+        font-size: 11px;
+      }
+
+      .recognized {
+        padding-top: 3px;
+        color: #3f6270;
+        font-size: 10px;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .recognized::before {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 5px;
+        border-radius: 50%;
+        background: #5d8795;
+        content: "";
+      }
+
+      .demo-options {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid #d8dcda;
+        color: #4f5b5b;
+        font-size: 11px;
+      }
+
+      .demo-options .lang {
+        margin-left: auto;
+      }
+
+      .check {
+        display: inline-grid;
+        width: 12px;
+        height: 12px;
+        margin-right: 4px;
+        place-items: center;
+        border-radius: 2px;
+        color: #fff;
+        background: #4b6a76;
+        font-size: 9px;
+      }
+
+      .primary-demo {
+        margin-top: 13px;
+        padding: 11px;
+        border: 1px solid #294653;
+        border-radius: 5px;
+        color: #fff;
+        background: #31535f;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .metrics-demo {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 11px;
+        border-top: 1px solid #d1d7d5;
+        border-bottom: 1px solid #d1d7d5;
+      }
+
+      .metric-demo {
+        padding: 8px 9px;
+      }
+
+      .metric-demo + .metric-demo {
+        border-left: 1px solid #d1d7d5;
+      }
+
+      .metric-demo span {
+        display: block;
+        margin-bottom: 2px;
+        color: #7a8582;
+        font-size: 9px;
+      }
+
+      .metric-demo strong {
+        color: #27383b;
+        font-size: 17px;
+      }
+
+      .complete-demo {
+        margin: 9px 0;
+        color: #707a78;
+        font-size: 10px;
+      }
+
+      .markdown-demo {
+        height: 166px;
+        overflow: hidden;
+        border: 1px solid #b8c2c0;
+        border-radius: 3px;
+        padding: 10px;
+        color: #2b393b;
+        background: #fff;
+        font: 10px/1.48 ui-monospace, SFMono-Regular, Menlo, monospace;
+        white-space: pre-wrap;
+      }
+
+      .demo-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 7px;
+        margin-top: 8px;
+      }
+
+      .demo-button {
+        padding: 7px 10px;
+        border: 1px solid #a6b3b3;
+        border-radius: 5px;
+        color: #354648;
+        background: #fbfbf9;
+        font-size: 10px;
+        font-weight: 680;
+      }
+
+      .mapping-stage,
+      .privacy-stage {
+        position: absolute;
+        right: 64px;
+        bottom: 52px;
+        left: 64px;
+        height: 500px;
+      }
+
+      .mapping-stage {
+        display: grid;
+        grid-template-columns: 1fr 116px 1fr;
+        align-items: stretch;
+      }
+
+      .mapping-panel {
+        padding: 35px 38px;
+        border: 1px solid #c8cdca;
+        background: #fff;
+        box-shadow: 0 15px 35px rgb(44 53 53 / 8%);
+      }
+
+      .mapping-panel.source {
+        border-radius: 9px 0 0 9px;
+      }
+
+      .mapping-panel.output {
+        border-radius: 0 9px 9px 0;
+        background: #f8f8f5;
+      }
+
+      .panel-label {
+        margin-bottom: 27px;
+        color: #71807d;
+        font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .source-copy {
+        color: #414d4c;
+        font-family: Georgia, "Songti SC", serif;
+        font-size: 20px;
+        line-height: 1.75;
+      }
+
+      .source-copy .citation {
+        padding: 2px 3px;
+        background: #edf3f4;
+      }
+
+      .ref-entry {
+        margin-top: 60px;
+        padding-top: 18px;
+        border-top: 1px solid #dde1df;
+        color: #596462;
+        font-family: Georgia, "Songti SC", serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .mapping-rail {
+        position: relative;
+        background: #304f5a;
+      }
+
+      .mapping-rail::before,
+      .mapping-rail::after {
+        position: absolute;
+        left: 22px;
+        width: 72px;
+        height: 1px;
+        background: #a7bbc0;
+        content: "";
+      }
+
+      .mapping-rail::before {
+        top: 172px;
+      }
+
+      .mapping-rail::after {
+        top: 354px;
+      }
+
+      .mapping-arrow {
+        position: absolute;
+        top: 223px;
+        left: 39px;
+        color: #fff;
+        font-size: 36px;
+        font-weight: 300;
+      }
+
+      .code-line {
+        margin-bottom: 13px;
+        color: #334144;
+        font: 16px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        white-space: pre-wrap;
+      }
+
+      .code-link {
+        color: #365f75;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .integrity {
+        margin-top: 42px;
+        padding: 14px 16px;
+        border-left: 3px solid #5d8795;
+        color: #445557;
+        background: #edf2f1;
+        font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .privacy-stage {
+        display: grid;
+        grid-template-columns: 0.9fr 1.25fr;
+        overflow: hidden;
+        border: 1px solid #c6ccc8;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 15px 35px rgb(44 53 53 / 9%);
+      }
+
+      .publisher-list {
+        padding: 43px 49px;
+        border-right: 1px solid #d9ddda;
+        background: #faf9f5;
+      }
+
+      .publisher-list h2,
+      .local-panel h2 {
+        margin: 0 0 24px;
+        color: #263436;
+        font-size: 21px;
+        letter-spacing: -0.025em;
+      }
+
+      .publisher-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+        border-top: 1px solid #e0e3df;
+        color: #465352;
+        font-size: 16px;
+        font-weight: 650;
+      }
+
+      .publisher-row:last-child {
+        border-bottom: 1px solid #e0e3df;
+      }
+
+      .publisher-row span:last-child {
+        color: #607a83;
+        font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .local-panel {
+        position: relative;
+        padding: 43px 52px;
+        background: #fff;
+      }
+
+      .local-flow {
+        display: grid;
+        grid-template-columns: 1fr 70px 1fr 70px 1fr;
+        align-items: center;
+        margin-top: 59px;
+      }
+
+      .flow-node {
+        display: grid;
+        min-height: 130px;
+        padding: 19px 14px;
+        place-items: center;
+        border: 1px solid #cad1ce;
+        border-radius: 7px;
+        color: #354547;
+        background: #f8f7f3;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .flow-node.app {
+        color: #fff;
+        background: #304f5a;
+      }
+
+      .flow-node .brand-icon {
+        width: 55px;
+        height: 55px;
+        margin-bottom: 7px;
+      }
+
+      .flow-arrow {
+        color: #7a939a;
+        font-size: 29px;
+        text-align: center;
+      }
+
+      .privacy-notes {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 56px;
+        border-top: 1px solid #d9ddda;
+      }
+
+      .privacy-note {
+        padding: 18px 16px 0 0;
+        color: #596562;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .privacy-note strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #304c55;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="artboard"></div>
+    <script>
+      const copy = {
+        en: {
+          promoKicker: "PAPER → MARKDOWN",
+          promoTitle: "Paper for LLMs",
+          promoBody: "Clean Markdown. References intact. Citations still connected.",
+          shot1Kicker: "READ · ARCHIVE · ANALYZE",
+          shot1Title: "Turn a paper into linked Markdown",
+          shot1Body: "Convert the article already open in your browser—with structure, figures, formulas, and references preserved.",
+          journal: "Research article · Information Science",
+          paperTitle: "How knowledge travels across research communities",
+          authors: "Amelia Chen · David Ortiz · Mina Park",
+          intro: "1 Introduction",
+          paperP1: "Research ideas move through collaboration, reuse, and citation. Their paths become visible when article structure and references remain connected",
+          paperP2: "A structured representation makes the paper easier to read, archive, and use in downstream language-model workflows.",
+          cite1: "(Chen & Ortiz, 2024)",
+          cite2: "(Park et al., 2025)",
+          tagline: "Turn papers into citation-linked Markdown.",
+          recognized: "ScienceDirect recognized",
+          yaml: "YAML metadata",
+          images: "Image links",
+          language: "Language · Auto",
+          convert: "Convert current paper",
+          references: "References",
+          linked: "Linked citations",
+          unlinked: "Unlinked citations",
+          complete: "Conversion complete: 48,216 characters.",
+          copy: "Copy Markdown",
+          download: "Download .md",
+          markdown: `---\ntitle: "How knowledge travels"\nauthors:\n  - "Amelia Chen"\ndoi: "10.0000/example.2026"\n---\n\n# How knowledge travels\n\n## 1 Introduction\n\nResearch ideas move through collaboration and [citation](#ref-1).\n\n## References\n\n1. <a id="ref-1"></a> Chen & Ortiz (2024).`,
+          shot2Kicker: "CITATION INTEGRITY",
+          shot2Title: "Citations stay connected",
+          shot2Body: "Publisher identifiers—not author-and-year guesses—map in-text citations to the correct reference entry.",
+          sourcePage: "ARTICLE PAGE",
+          markdownOutput: "MARKDOWN OUTPUT",
+          sourceText: "Prior work shows that linked evidence improves traceability",
+          refText: "Chen, A. & Ortiz, D. Linked evidence in scholarly communication. 2024.",
+          integrityTitle: "Integrity audit",
+          integrityLine: "references=42 · resolved=81 · unresolved=0",
+          shot3Kicker: "SUPPORTED PUBLISHERS · LOCAL BY DESIGN",
+          shot3Title: "One workflow across major publishers",
+          shot3Body: "The current article is processed in your tab. No upload, analytics, or remote code.",
+          publishers: "Supported article pages",
+          supported: "SUPPORTED",
+          localTitle: "From the current tab to a local .md file",
+          currentTab: "Current article tab",
+          appNode: "Paper for LLMs",
+          mdFile: "Local Markdown file",
+          note1Title: "No upload",
+          note1: "Article content stays in the browser.",
+          note2Title: "No tracking",
+          note2: "No analytics or browsing-history collection.",
+          note3Title: "No remote code",
+          note3: "All executable code ships with the extension.",
+        },
+        zh: {
+          promoKicker: "论文 → MARKDOWN",
+          promoTitle: "Paper for LLMs",
+          promoBody: "结构清晰，参考文献完整，文内引用保持关联。",
+          shot1Kicker: "阅读 · 存档 · 分析",
+          shot1Title: "将论文转为保留引文链接的 Markdown",
+          shot1Body: "转换浏览器中已经打开的论文，同时保留结构、图片、公式和参考文献。",
+          journal: "研究论文 · 信息科学",
+          paperTitle: "知识如何在科研社群之间传播",
+          authors: "陈安然 · David Ortiz · 朴敏雅",
+          intro: "1 引言",
+          paperP1: "研究思想通过合作、复用和引用传播。当论文结构与参考文献保持关联时，这些路径便清晰可见",
+          paperP2: "结构化表示让论文更便于阅读、存档，并用于后续的大模型工作流。",
+          cite1: "（Chen 与 Ortiz，2024）",
+          cite2: "（Park 等，2025）",
+          tagline: "将论文转换为保留引文链接的 Markdown。",
+          recognized: "ScienceDirect 已识别",
+          yaml: "YAML 元数据",
+          images: "图片链接",
+          language: "界面语言 · 自动",
+          convert: "转换当前论文",
+          references: "参考文献",
+          linked: "已映射引用",
+          unlinked: "未映射引用",
+          complete: "转换完成：48,216 个字符。",
+          copy: "复制 Markdown",
+          download: "下载 .md",
+          markdown: `---\ntitle: "知识如何传播"\nauthors:\n  - "陈安然"\ndoi: "10.0000/example.2026"\n---\n\n# 知识如何传播\n\n## 1 引言\n\n研究思想通过合作和[引用](#ref-1)传播。\n\n## 参考文献\n\n1. <a id="ref-1"></a> Chen 与 Ortiz（2024）。`,
+          shot2Kicker: "引用完整性",
+          shot2Title: "文内引用与参考文献保持关联",
+          shot2Body: "使用出版商提供的标识符，将文内引用准确映射到参考文献，而不是根据作者和年份猜测。",
+          sourcePage: "论文页面",
+          markdownOutput: "MARKDOWN 输出",
+          sourceText: "已有研究表明，关联完整的证据能够提高内容的可追溯性",
+          refText: "Chen, A. 与 Ortiz, D. 学术传播中的关联证据。2024。",
+          integrityTitle: "完整性审计",
+          integrityLine: "参考文献=42 · 已映射=81 · 未映射=0",
+          shot3Kicker: "主要出版商 · 本地处理",
+          shot3Title: "同一套流程，适用于主要出版商",
+          shot3Body: "当前论文仅在标签页中处理，不上传内容，不使用分析工具或远程代码。",
+          publishers: "支持的论文页面",
+          supported: "已支持",
+          localTitle: "从当前标签页到本地 .md 文件",
+          currentTab: "当前论文标签页",
+          appNode: "Paper for LLMs",
+          mdFile: "本地 Markdown 文件",
+          note1Title: "不上传",
+          note1: "论文内容始终留在浏览器中。",
+          note2Title: "不追踪",
+          note2: "不使用分析工具，不收集浏览历史。",
+          note3Title: "无远程代码",
+          note3: "所有可执行代码均随扩展打包。",
+        },
+      };
+
+      const params = new URLSearchParams(location.search);
+      const language = params.get("lang") === "zh-CN" ? "zh" : "en";
+      const kind = params.get("kind") || "promo";
+      const shot = Number(params.get("shot") || 1);
+      const t = copy[language];
+      const artboard = document.querySelector("#artboard");
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+      document.body.classList.toggle("zh", language === "zh");
+
+      const icon = (className = "") =>
+        `<img class="brand-icon ${className}" src="../../../assets/icons/icon-128.png" alt="" />`;
+
+      function renderPromo() {
+        artboard.innerHTML = `
+          <main class="promo">
+            <section class="promo-copy">
+              <div class="promo-kicker">${t.promoKicker}</div>
+              <h1>${t.promoTitle}</h1>
+              <p>${t.promoBody}</p>
+            </section>
+            <section class="promo-visual">${icon()}</section>
+            <div class="promo-rule"></div>
+          </main>`;
+      }
+
+      function shotShell(number, kicker, title, body, content) {
+        artboard.innerHTML = `
+          <main class="store-shot">
+            <div class="shot-brand">${icon()}<span>Paper for LLMs</span></div>
+            <div class="shot-number">0${number} / 03</div>
+            <header class="shot-heading">
+              <div class="shot-kicker">${kicker}</div>
+              <h1>${title}</h1>
+              <p>${body}</p>
+            </header>
+            ${content}
+          </main>`;
+      }
+
+      function renderShotOne() {
+        const content = `
+          <section class="browser-stage">
+            <div class="browser-bar">
+              <span class="browser-dots"><i></i><i></i><i></i></span>
+              <span class="address">sciencedirect.com/science/article/pii/…</span>
+            </div>
+            <div class="browser-content">
+              <article class="paper-page">
+                <div class="journal-label">${t.journal}</div>
+                <h2>${t.paperTitle}</h2>
+                <div class="authors">${t.authors}</div>
+                <h3 class="section-title">${t.intro}</h3>
+                <p>${t.paperP1} <span class="citation">${t.cite1}</span>。</p>
+                <p>${t.paperP2} <span class="citation">${t.cite2}</span></p>
+              </article>
+              <aside class="popup-demo">
+                <div class="popup-title-row">
+                  <div><h3>Paper for LLMs</h3><p>${t.tagline}</p></div>
+                  <span class="recognized">${t.recognized}</span>
+                </div>
+                <div class="demo-options">
+                  <span><i class="check">✓</i>${t.yaml}</span>
+                  <span><i class="check">✓</i>${t.images}</span>
+                  <span class="lang">${t.language}</span>
+                </div>
+                <div class="primary-demo">${t.convert}</div>
+                <div class="metrics-demo">
+                  <div class="metric-demo"><span>${t.references}</span><strong>42</strong></div>
+                  <div class="metric-demo"><span>${t.linked}</span><strong>81</strong></div>
+                  <div class="metric-demo"><span>${t.unlinked}</span><strong>0</strong></div>
+                </div>
+                <div class="complete-demo">${t.complete}</div>
+                <div class="markdown-demo">${t.markdown}</div>
+                <div class="demo-actions"><span class="demo-button">${t.copy}</span><span class="demo-button">${t.download}</span></div>
+              </aside>
+            </div>
+          </section>`;
+        shotShell(1, t.shot1Kicker, t.shot1Title, t.shot1Body, content);
+      }
+
+      function renderShotTwo() {
+        const content = `
+          <section class="mapping-stage">
+            <article class="mapping-panel source">
+              <div class="panel-label">${t.sourcePage}</div>
+              <div class="source-copy">${t.sourceText} <span class="citation">${t.cite1}</span>。</div>
+              <div class="ref-entry"><strong>[1]</strong> ${t.refText}</div>
+            </article>
+            <div class="mapping-rail"><span class="mapping-arrow">→</span></div>
+            <article class="mapping-panel output">
+              <div class="panel-label">${t.markdownOutput}</div>
+              <div class="code-line">${t.sourceText}</div>
+              <div class="code-line code-link">[${t.cite1}](#ref-1)</div>
+              <div class="code-line">## ${t.references}</div>
+              <div class="code-line">1. &lt;a id="ref-1"&gt;&lt;/a&gt; ${t.refText}</div>
+              <div class="integrity"><strong>${t.integrityTitle}</strong><br />${t.integrityLine}</div>
+            </article>
+          </section>`;
+        shotShell(2, t.shot2Kicker, t.shot2Title, t.shot2Body, content);
+      }
+
+      function renderShotThree() {
+        const publishers = ["ScienceDirect", "Wiley Online Library", "Nature", "SpringerLink", "Science / AAAS"];
+        const content = `
+          <section class="privacy-stage">
+            <article class="publisher-list">
+              <h2>${t.publishers}</h2>
+              ${publishers.map((publisher) => `<div class="publisher-row"><span>${publisher}</span><span>${t.supported}</span></div>`).join("")}
+            </article>
+            <article class="local-panel">
+              <h2>${t.localTitle}</h2>
+              <div class="local-flow">
+                <div class="flow-node">${t.currentTab}</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node app">${icon()}<span>${t.appNode}</span></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">${t.mdFile}</div>
+              </div>
+              <div class="privacy-notes">
+                <div class="privacy-note"><strong>${t.note1Title}</strong>${t.note1}</div>
+                <div class="privacy-note"><strong>${t.note2Title}</strong>${t.note2}</div>
+                <div class="privacy-note"><strong>${t.note3Title}</strong>${t.note3}</div>
+              </div>
+            </article>
+          </section>`;
+        shotShell(3, t.shot3Kicker, t.shot3Title, t.shot3Body, content);
+      }
+
+      if (kind === "promo") renderPromo();
+      else if (shot === 2) renderShotTwo();
+      else if (shot === 3) renderShotThree();
+      else renderShotOne();
+    </script>
+  </body>
+</html>

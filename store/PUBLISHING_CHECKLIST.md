@@ -15,8 +15,7 @@ Use this checklist for the first public release and for later updates. Chrome We
 
 ## 2. Extension package
 
-- [ ] Decide the first public version. `1.0.0` is recommended if this is presented as the first stable release; otherwise document the pre-release status clearly.
-- [ ] Update the version consistently in `manifest.json`, `package.json`, and release documentation.
+- [ ] Confirm that the release version is `1.0.0` in `manifest.json`, `package.json`, and release documentation.
 - [ ] Review `activeTab`, `scripting`, host permissions, and content-script matches. Remove any access that is not necessary for the submitted implementation.
 - [ ] Confirm that the permission explanations in `STORE_LISTING.md` exactly match the uploaded `manifest.json`.
 - [ ] Confirm that all executable code is packaged locally and that no remote code is loaded.
@@ -30,9 +29,9 @@ Use this checklist for the first public release and for later updates. Chrome We
 ## 3. Store assets
 
 - [ ] Use the final 128×128 extension icon.
-- [ ] Prepare the required 440×280 small promotional tile.
-- [ ] Prepare at least one clear store screenshot, preferably 1280×800. If using the alternative 640×400 size, verify that the dashboard still accepts it.
-- [ ] Prepare localized screenshots for the English and Simplified Chinese listings.
+- [ ] Select the matching 440×280 small promotional tile from `store/assets/generated/`.
+- [ ] Select the 1280×800 store screenshots from `store/assets/generated/`.
+- [ ] Upload the matching English or Simplified Chinese localized assets for each listing.
 - [ ] Show the actual extension interface and representative Markdown output; do not imply unsupported capabilities.
 - [ ] Check all images at their final uploaded size for legibility, safe margins, and consistent branding.
 - [ ] Reconfirm required dimensions in the Developer Dashboard immediately before upload.

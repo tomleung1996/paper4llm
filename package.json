@@ -1,6 +1,6 @@
 {
   "name": "paper4llm",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Paper for LLMs Chrome extension for converting scholarly articles to citation-linked Markdown.",
   "license": "MIT",
@@ -13,6 +13,7 @@
   },
   "homepage": "https://github.com/tomleung1996/paper4llm#readme",
   "scripts": {
+    "assets:store": "bash scripts/generate-store-assets.sh",
     "check": "node --check src/i18n.js && node --check src/core.js && node --check src/sciencedirect.js && node --check src/wiley.js && node --check src/springernature.js && node --check src/science.js && node --check src/content.js && node --check popup.js",
     "test": "node --test tests/core.test.js",
     "test:browser": "node tests/server.mjs",
