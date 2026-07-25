@@ -21,4 +21,6 @@ npm run assets:store
 
 脚本使用本机安装的 Chrome 或 Chromium。如果无法自动找到浏览器，请设置 `CHROME_BIN`。可编辑源文件为 `source/render.html`，生成的 PNG 写入 `generated/`。
 
+如需只重新生成一类素材，可在命令前设置 `STORE_ASSET_SCOPE=promo` 或 `STORE_ASSET_SCOPE=screenshots`。
+
 Chrome Web Store 接受的尺寸和必需素材类型可能变化，上传前应再次核对当时控制台显示的要求。

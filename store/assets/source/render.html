@@ -37,27 +37,34 @@
       .promo {
         position: relative;
         display: grid;
-        grid-template-columns: 1fr 150px;
+        grid-template-columns: 290px 150px;
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background: #f4f2eb;
+        background: #294550;
       }
 
       .promo::before {
         position: absolute;
         inset: 0;
-        border: 1px solid rgb(35 48 51 / 12%);
+        z-index: 3;
+        border: 1px solid rgb(18 33 39 / 18%);
         content: "";
         pointer-events: none;
       }
 
       .promo-copy {
         z-index: 1;
-        padding: 31px 0 27px 32px;
+        padding: 27px 20px 25px 30px;
       }
 
-      .promo-kicker,
+      .promo-name {
+        color: #91ead2;
+        font-size: 15px;
+        font-weight: 760;
+        letter-spacing: -0.015em;
+      }
+
       .shot-kicker {
         color: #47616b;
         font-size: 11px;
@@ -68,60 +75,58 @@
 
       .promo h1 {
         width: 250px;
-        margin: 27px 0 10px;
-        color: #1f2b2e;
-        font-size: 30px;
-        font-weight: 760;
-        letter-spacing: -0.035em;
-        line-height: 1.03;
+        margin: 29px 0 15px;
+        color: #ffffff;
+        font-size: 37px;
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
       }
 
       .promo p {
         width: 245px;
         margin: 0;
-        color: #66716f;
-        font-size: 13px;
-        line-height: 1.45;
-      }
-
-      .promo-rule {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 9px;
-        background: #304f5a;
+        color: #d5dfdc;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        line-height: 1.35;
+        text-transform: uppercase;
       }
 
       .promo-visual {
         position: relative;
         display: grid;
         place-items: center;
-        background: #304f5a;
-      }
-
-      .promo-visual::before,
-      .promo-visual::after {
-        position: absolute;
-        left: -18px;
-        width: 42px;
-        height: 1px;
-        background: #89a2aa;
-        content: "";
+        border-left: 1px solid rgb(30 52 60 / 14%);
+        background: #f1eee5;
       }
 
       .promo-visual::before {
-        top: 93px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 8px;
+        background: #72dfc2;
+        content: "";
       }
 
       .promo-visual::after {
-        top: 187px;
+        position: absolute;
+        right: 18px;
+        bottom: 21px;
+        left: 25px;
+        height: 1px;
+        background: #bdc8c3;
+        content: "";
       }
 
       .promo .brand-icon {
-        width: 128px;
-        height: 128px;
-        filter: drop-shadow(0 13px 14px rgb(18 31 52 / 28%));
+        z-index: 1;
+        width: 137px;
+        height: 137px;
+        filter: drop-shadow(0 14px 13px rgb(31 43 60 / 24%));
       }
 
       .store-shot {
@@ -674,9 +679,9 @@
     <script>
       const copy = {
         en: {
-          promoKicker: "PAPER → MARKDOWN",
-          promoTitle: "Paper for LLMs",
-          promoBody: "Clean Markdown. References intact. Citations still connected.",
+          promoName: "Paper for LLMs",
+          promoTitle: "PAPER →<br>MARKDOWN",
+          promoBody: "Citations stay linked",
           shot1Kicker: "READ · ARCHIVE · ANALYZE",
           shot1Title: "Turn a paper into linked Markdown",
           shot1Body: "Convert the article already open in your browser—with structure, figures, formulas, and references preserved.",
@@ -727,9 +732,9 @@
           note3: "All executable code ships with the extension.",
         },
         zh: {
-          promoKicker: "论文 → MARKDOWN",
-          promoTitle: "Paper for LLMs",
-          promoBody: "结构清晰，参考文献完整，文内引用保持关联。",
+          promoName: "Paper for LLMs",
+          promoTitle: "论文 →<br>MARKDOWN",
+          promoBody: "引文与参考文献保持关联",
           shot1Kicker: "阅读 · 存档 · 分析",
           shot1Title: "将论文转为保留引文链接的 Markdown",
           shot1Body: "转换浏览器中已经打开的论文，同时保留结构、图片、公式和参考文献。",
@@ -797,12 +802,11 @@
         artboard.innerHTML = `
           <main class="promo">
             <section class="promo-copy">
-              <div class="promo-kicker">${t.promoKicker}</div>
+              <div class="promo-name">${t.promoName}</div>
               <h1>${t.promoTitle}</h1>
               <p>${t.promoBody}</p>
             </section>
             <section class="promo-visual">${icon()}</section>
-            <div class="promo-rule"></div>
           </main>`;
       }
 

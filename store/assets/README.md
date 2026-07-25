@@ -21,4 +21,6 @@ npm run assets:store
 
 The script uses a locally installed Chrome or Chromium browser. Set `CHROME_BIN` if it cannot detect the executable automatically. The editable source is `source/render.html`; generated PNG files are written to `generated/`.
 
+To regenerate only one asset group, set `STORE_ASSET_SCOPE=promo` or `STORE_ASSET_SCOPE=screenshots` before the command.
+
 Review the current Chrome Web Store dashboard requirements before uploading because accepted dimensions and required asset types may change.

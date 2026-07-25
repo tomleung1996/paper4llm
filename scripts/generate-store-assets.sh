@@ -4,6 +4,12 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCE_FILE="$ROOT_DIR/store/assets/source/render.html"
 OUTPUT_DIR="$ROOT_DIR/store/assets/generated"
+SCOPE="${STORE_ASSET_SCOPE:-all}"
+
+if [[ "$SCOPE" != "all" && "$SCOPE" != "promo" && "$SCOPE" != "screenshots" ]]; then
+  echo "STORE_ASSET_SCOPE must be all, promo, or screenshots." >&2
+  exit 1
+fi
 
 if [[ -n "${CHROME_BIN:-}" && -x "$CHROME_BIN" ]]; then
   BROWSER="$CHROME_BIN"
@@ -68,13 +74,17 @@ render() {
   echo "$output"
 }
 
-render "promo-small-en-440x280.png" 440 280 "kind=promo&lang=en"
-render "promo-small-zh-CN-440x280.png" 440 280 "kind=promo&lang=zh-CN"
+if [[ "$SCOPE" == "all" || "$SCOPE" == "promo" ]]; then
+  render "promo-small-en-440x280.png" 440 280 "kind=promo&lang=en"
+  render "promo-small-zh-CN-440x280.png" 440 280 "kind=promo&lang=zh-CN"
+fi
 
-for language in en zh-CN; do
-  for shot in 1 2 3; do
-    render "screenshot-${shot}-${language}-1280x800.png" 1280 800 "kind=screenshot&lang=$language&shot=$shot"
+if [[ "$SCOPE" == "all" || "$SCOPE" == "screenshots" ]]; then
+  for language in en zh-CN; do
+    for shot in 1 2 3; do
+      render "screenshot-${shot}-${language}-1280x800.png" 1280 800 "kind=screenshot&lang=$language&shot=$shot"
+    done
   done
-done
+fi
 
 echo "$OUTPUT_DIR"
