@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 — 2026-07-29
+
+- Add citation-linked Markdown extraction for MDPI, Taylor & Francis, Frontiers, Oxford Academic, IEEE Xplore, Wolters Kluwer/Ovid, and SAGE Journals.
+- Validate each new publisher against at least three open-access articles from different journals.
+- Load IEEE references on demand and recover complete Wolters Kluwer author lists from publisher-provided structured data.
+- Expand browser regression coverage to 90 assertions across all supported platforms.
+
 English | [简体中文](CHANGELOG.zh-CN.md)
 
 All notable changes to Paper for LLMs will be documented here.

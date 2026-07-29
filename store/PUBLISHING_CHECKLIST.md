@@ -15,7 +15,7 @@ Use this checklist for the first public release and for later updates. Chrome We
 
 ## 2. Extension package
 
-- [ ] Confirm that the release version is `1.0.0` in `manifest.json`, `package.json`, and release documentation.
+- [ ] Confirm that the release version is `1.1.0` in `manifest.json`, `package.json`, and release documentation.
 - [ ] Review `activeTab`, `scripting`, host permissions, and content-script matches. Remove any access that is not necessary for the submitted implementation.
 - [ ] Confirm that the permission explanations in `STORE_LISTING.md` exactly match the uploaded `manifest.json`.
 - [ ] Confirm that all executable code is packaged locally and that no remote code is loaded.

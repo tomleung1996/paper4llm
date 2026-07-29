@@ -11,6 +11,13 @@ Paper for LLMs 是一个 Chrome Manifest V3 扩展，用于将浏览器中已经
 - Nature
 - SpringerLink
 - Science / AAAS
+- MDPI
+- Taylor & Francis Online
+- Frontiers
+- Oxford Academic
+- IEEE Xplore
+- Wolters Kluwer / Ovid
+- SAGE Journals（含 SAGE 中国平台）
 
 ## 功能
 
@@ -34,6 +41,14 @@ https://link.springer.com/article/10....
 https://www.science.org/doi/10.1126/...
 https://www.science.org/doi/full/10.1126/...
 https://www.science.org/doi/abs/10.1126/...
+https://www.mdpi.com/ISSN/volume/issue/article
+https://www.tandfonline.com/doi/full/10....
+https://www.frontiersin.org/journals/.../articles/10.3389/.../full
+https://academic.oup.com/.../article/...
+https://ieeexplore.ieee.org/document/...
+https://www.ovid.com/jnls/.../fulltext/...
+https://journals.sagepub.com/doi/10.1177/...
+https://sage.cnpereading.com/doi/10.1177/...
 ```
 
 ## 本地安装
@@ -62,6 +77,7 @@ Paper for LLMs 优先使用出版商页面提供的标识符，而不是根据�
 - Wiley：将引文链接映射到对应的 `data-bib-id` 条目。
 - Nature 与 SpringerLink：将 `ref-CR30` 等 fragment 映射到参考文献容器。
 - Science / AAAS：将 `data-xml-rid` 映射到参考文献条目 ID。
+- MDPI fragment、Taylor & Francis `data-rid`、Frontiers 引用按钮、Oxford `reveal-id`、IEEE `anchor`、Wolters Kluwer 结构化 `refId` 以及 SAGE `data-ref-id` 均映射到出版商参考文献条目。
 
 生成的 Markdown 末尾包含类似以下审计标记：
 
@@ -119,6 +135,7 @@ src/sciencedirect.js     ScienceDirect 解析器
 src/wiley.js             Wiley 解析器
 src/springernature.js    Nature 与 SpringerLink 解析器
 src/science.js           Science / AAAS 解析器
+src/publisher-platforms.js  MDPI、Taylor & Francis、Frontiers、Oxford、IEEE、Wolters Kluwer 与 SAGE 解析器
 tests/                   单元测试和浏览器 DOM 样例
 store/                   Chrome Web Store 文案与发布清单
 CONTRIBUTING*.md          贡献指南
@@ -143,7 +160,7 @@ CHANGELOG*.md             版本记录
 
 ## 免责声明
 
-Paper for LLMs 是独立项目，与 Elsevier、Wiley、Springer Nature 或 AAAS 不存在隶属、合作或背书关系。出版商和期刊名称仅用于说明兼容性。用户有责任遵守所转换内容适用的访问条款和许可协议。
+Paper for LLMs 是独立项目，与任何受支持的出版商均不存在隶属、合作或背书关系。出版商和期刊名称仅用于说明兼容性。用户有责任遵守所转换内容适用的访问条款和许可协议。
 
 ## 许可证
 

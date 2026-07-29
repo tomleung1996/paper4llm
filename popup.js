@@ -87,6 +87,33 @@
       ) {
         return { id: "science", label: "Science / AAAS" };
       }
+      if ((parsed.hostname === "www.mdpi.com" || parsed.hostname === "mdpi.com") && /^\/\d{4}-\d{3,5}\//.test(parsed.pathname)) {
+        return { id: "mdpi", label: "MDPI" };
+      }
+      if ((parsed.hostname === "www.tandfonline.com" || parsed.hostname === "tandfonline.com") && /^\/doi\/(?:full\/|abs\/)?10\./i.test(parsed.pathname)) {
+        return { id: "taylorfrancis", label: "Taylor & Francis" };
+      }
+      if ((parsed.hostname === "www.frontiersin.org" || parsed.hostname === "frontiersin.org") && /\/articles\/10\.3389\//i.test(parsed.pathname)) {
+        return { id: "frontiers", label: "Frontiers" };
+      }
+      if (parsed.hostname === "academic.oup.com" && /\/article\//i.test(parsed.pathname)) {
+        return { id: "oup", label: "Oxford Academic" };
+      }
+      if (parsed.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(parsed.pathname)) {
+        return { id: "ieee", label: "IEEE Xplore" };
+      }
+      if (
+        (parsed.hostname === "www.ovid.com" && /^\/jnls\/.+\/fulltext\//i.test(parsed.pathname)) ||
+        (parsed.hostname.endsWith(".lww.com") && /10\.(?:1097|4103)\//i.test(parsed.pathname))
+      ) {
+        return { id: "wolterskluwer", label: "Wolters Kluwer" };
+      }
+      if (
+        (parsed.hostname === "journals.sagepub.com" || parsed.hostname === "sage.cnpereading.com") &&
+        /^\/doi\/(?:full\/|abs\/)?10\.1177\//i.test(parsed.pathname)
+      ) {
+        return { id: "sage", label: "SAGE" };
+      }
       return null;
     } catch (_error) {
       return null;
@@ -179,6 +206,7 @@
           "src/wiley.js",
           "src/springernature.js",
           "src/science.js",
+          "src/publisher-platforms.js",
           "src/content.js",
         ],
       });

@@ -220,6 +220,62 @@
     );
     assert("Science: omits access-control boilerplate", !paywalledScienceResult.markdown.includes("Access the full article"));
 
+    const publisherFixturesHtml = await fetch("fixtures/publisher-platforms.html").then(
+      (response) => response.text(),
+    );
+    const publisherFixturesDocument = new DOMParser().parseFromString(
+      publisherFixturesHtml,
+      "text/html",
+    );
+    const extractFixture = (templateId, extractor, options = {}) => {
+      const source = publisherFixturesDocument.querySelector(`#${templateId}`).innerHTML.trim();
+      const fixture = new DOMParser().parseFromString(source, "text/html");
+      return extractor.extract(fixture, {
+        includeFrontMatter: true,
+        includeImages: true,
+        locale: "en",
+        ...options,
+      });
+    };
+
+    const mdpiResult = extractFixture("mdpi-fixture", globalThis.PaperMd.mdpi);
+    assert("MDPI: extracts metadata", mdpiResult.metadata.journal === "Sensors" && mdpiResult.metadata.doi === "10.3390/example1");
+    assert("MDPI: maps bibliography targets", mdpiResult.markdown.includes("[&#91;1&#93;](#ref-1)") && mdpiResult.diagnostics.unresolvedCitations.length === 0);
+    assert("MDPI: keeps image URLs", mdpiResult.markdown.includes("https://www.mdpi.com/image/example.png"));
+
+    const taylorFrancisResult = extractFixture(
+      "taylorfrancis-fixture",
+      globalThis.PaperMd.taylorfrancis,
+    );
+    assert("Taylor & Francis: extracts metadata", taylorFrancisResult.metadata.journal === "Cogent Social Sciences");
+    assert("Taylor & Francis: maps data-rid citations", taylorFrancisResult.markdown.includes("[Author, 2025](#ref-1)"));
+    assert("Taylor & Francis: omits reference controls", !taylorFrancisResult.markdown.includes("Google Scholar"));
+
+    const frontiersResult = extractFixture("frontiers-fixture", globalThis.PaperMd.frontiers);
+    assert("Frontiers: extracts metadata", frontiersResult.metadata.journal === "Frontiers in Psychology");
+    assert("Frontiers: maps button citations", frontiersResult.markdown.includes("[Author, 2025](#ref-1)"));
+    assert("Frontiers: omits reference controls", !frontiersResult.markdown.includes("Google Scholar"));
+
+    const oupResult = extractFixture("oup-fixture", globalThis.PaperMd.oup);
+    assert("Oxford: extracts metadata", oupResult.metadata.journal === "Nucleic Acids Research");
+    assert("Oxford: maps reveal-id citations", oupResult.markdown.includes("[Author, 2025](#ref-1)"));
+
+    const ieeeResult = extractFixture("ieee-fixture", globalThis.PaperMd.ieee);
+    assert("IEEE: extracts visible metadata", ieeeResult.metadata.journal === "IEEE Access" && ieeeResult.metadata.doi === "10.1109/ACCESS.2026.1");
+    assert("IEEE: extracts all displayed authors", ieeeResult.metadata.authors.join("|") === "IEEE Author One|IEEE Author Two");
+    assert("IEEE: maps anchor citations", ieeeResult.markdown.includes("[&#91;1&#93;](#ref-1)"));
+    assert("IEEE: omits reference controls", !ieeeResult.markdown.includes("Google Scholar"));
+
+    const woltersResult = extractFixture("wolters-fixture", globalThis.PaperMd.wolterskluwer);
+    assert("Wolters Kluwer: extracts hydrated authors", woltersResult.metadata.authors.join("|") === "Wolters Author");
+    assert("Wolters Kluwer: extracts journal metadata", woltersResult.metadata.journal === "Medicine" && woltersResult.metadata.doi === "10.1097/example.1");
+    assert("Wolters Kluwer: maps hydrated citations", woltersResult.markdown.includes("[1](#ref-1)"));
+    assert("Wolters Kluwer: omits reference controls", !woltersResult.markdown.includes("Cited Here"));
+
+    const sageResult = extractFixture("sage-fixture", globalThis.PaperMd.sage);
+    assert("SAGE: extracts schema.org metadata", sageResult.metadata.journal === "SAGE Open" && sageResult.metadata.authors[0] === "SAGE Author");
+    assert("SAGE: maps domestic-platform bibr citations", sageResult.markdown.includes("[1](#ref-1)"));
+
     const delayedWileyDocument = new DOMParser().parseFromString(
       `<!doctype html>
       <html lang="en">
@@ -258,7 +314,7 @@
     assert("Wiley: waits for a delayed reference container", delayedWileyResult.diagnostics.references === 1);
     assert("Wiley: resolves citations after delayed loading", delayedWileyResult.markdown.includes("[1](#ref-1)"));
 
-    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}`;
+    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}\n\n${mdpiResult.markdown}\n\n${taylorFrancisResult.markdown}\n\n${frontiersResult.markdown}\n\n${oupResult.markdown}\n\n${ieeeResult.markdown}\n\n${woltersResult.markdown}\n\n${sageResult.markdown}`;
   } catch (error) {
     assertions.push({ name: error.stack || error.message, pass: false });
   }

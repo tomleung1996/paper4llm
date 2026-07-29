@@ -15,7 +15,7 @@
 
 ## 2. 扩展安装包
 
-- [ ] 确认 `manifest.json`、`package.json` 和发布文档中的发布版本均为 `1.0.0`。
+- [ ] 确认 `manifest.json`、`package.json` 和发布文档中的发布版本均为 `1.1.0`。
 - [ ] 复核 `activeTab`、`scripting`、网站访问权限和内容脚本匹配范围，删除最终实现不需要的权限。
 - [ ] 确认 `STORE_LISTING.zh-CN.md` 中的权限说明与上传包内的 `manifest.json` 完全一致。
 - [ ] 确认所有可执行代码都随扩展打包，不加载远程代码。

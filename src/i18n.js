@@ -32,7 +32,7 @@
       unsupportedPage: "Unsupported page",
       pageReady: "Page ready. Conversion runs locally in the current tab.",
       supportedPageInstruction:
-        "Open a paper detail page on ScienceDirect, Wiley, Nature, SpringerLink, or Science.",
+        "Open a supported paper detail page in the current tab.",
       cannotReadTab: "Could not read the active tab.",
       unsupportedArticlePage: "The current page is not a supported paper detail page.",
       converterNotLoaded:
@@ -78,7 +78,7 @@
       unsupportedPage: "不支持此页面",
       pageReady: "页面已就绪。转换过程完全在当前页面本地执行。",
       supportedPageInstruction:
-        "请打开 ScienceDirect、Wiley、Nature、SpringerLink 或 Science 的论文详情页。",
+        "请在当前标签页打开受支持的论文详情页。",
       cannotReadTab: "无法读取当前标签页。",
       unsupportedArticlePage: "当前页面不是受支持的论文详情页。",
       converterNotLoaded: "转换器脚本未正确加载，请刷新论文页面后重试。",

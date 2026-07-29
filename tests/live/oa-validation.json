@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-07-29",
+  "publishers": [
+    {
+      "publisher": "MDPI AG",
+      "samples": [
+        { "journal": "Sensors", "doi": "10.3390/s26010251", "url": "https://www.mdpi.com/1424-8220/26/1/251" },
+        { "journal": "Sustainability", "doi": "10.3390/su18010404", "url": "https://www.mdpi.com/2071-1050/18/1/404" },
+        { "journal": "Cancers", "doi": "10.3390/cancers18010141", "url": "https://www.mdpi.com/2072-6694/18/1/141" }
+      ]
+    },
+    {
+      "publisher": "Taylor & Francis",
+      "samples": [
+        { "journal": "Cogent Social Sciences", "doi": "10.1080/23311886.2025.2609336", "url": "https://www.tandfonline.com/doi/full/10.1080/23311886.2025.2609336" },
+        { "journal": "Global Health Action", "doi": "10.1080/16549716.2025.2601409", "url": "https://www.tandfonline.com/doi/full/10.1080/16549716.2025.2601409" },
+        { "journal": "International Journal of Qualitative Studies on Health and Well-being", "doi": "10.1080/17482631.2025.2608197", "url": "https://www.tandfonline.com/doi/full/10.1080/17482631.2025.2608197" }
+      ]
+    },
+    {
+      "publisher": "Frontiers Media SA",
+      "samples": [
+        { "journal": "Frontiers in Psychology", "doi": "10.3389/fpsyg.2025.1678376", "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1678376/full" },
+        { "journal": "Frontiers in Medicine", "doi": "10.3389/fmed.2025.1726261", "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1726261/full" },
+        { "journal": "Frontiers in Plant Science", "doi": "10.3389/fpls.2025.1733102", "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1733102/full" }
+      ]
+    },
+    {
+      "publisher": "Oxford University Press",
+      "samples": [
+        { "journal": "Nucleic Acids Research", "doi": "10.1093/nar/gkaf1280", "url": "https://academic.oup.com/nar/article/54/D1/D89/8383825" },
+        { "journal": "GigaScience", "doi": "10.1093/gigascience/giaf159", "url": "https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giaf159/8405294" },
+        { "journal": "Oxford Open Neuroscience", "doi": "10.1093/oons/kvaf003", "url": "https://academic.oup.com/oons/article/doi/10.1093/oons/kvaf003/8300262" }
+      ]
+    },
+    {
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "samples": [
+        { "journal": "IEEE Access", "doi": "10.1109/ACCESS.2024.3523940", "url": "https://ieeexplore.ieee.org/document/10818484/" },
+        { "journal": "IEEE Open Journal of the Communications Society", "doi": "10.1109/OJCOMS.2025.3606374", "url": "https://ieeexplore.ieee.org/document/11151668/" },
+        { "journal": "IEEE Open Journal of Engineering in Medicine and Biology", "doi": "10.1109/OJEMB.2024.3508477", "url": "https://ieeexplore.ieee.org/document/10770579/" }
+      ]
+    },
+    {
+      "publisher": "Wolters Kluwer Health",
+      "samples": [
+        { "journal": "Medicine", "doi": "10.1097/MD.0000000000046672", "url": "https://www.ovid.com/jnls/md-journal/fulltext/10.1097/md.0000000000046672~oral-chinese-patent-medicines-for-herpangina-in-children-a" },
+        { "journal": "Chinese Medical Journal", "doi": "10.1097/CM9.0000000000003941", "url": "https://www.ovid.com/jnls/cmj/fulltext/10.1097/cm9.0000000000003941~serum-lipids-and-disease-progression-in-huntingtons-disease" },
+        { "journal": "Journal of Anaesthesiology Clinical Pharmacology", "doi": "10.4103/joacp.joacp_150_25", "url": "https://www.ovid.com/jnls/joacp/fulltext/10.4103/joacp.joacp_150_25~snorkel-breathing-technique-in-anesthesia-a-narrative-review" }
+      ]
+    },
+    {
+      "publisher": "SAGE Publications",
+      "samples": [
+        { "journal": "SAGE Open", "doi": "10.1177/21582440241230363", "url": "https://sage.cnpereading.com/doi/10.1177/21582440241230363" },
+        { "journal": "DIGITAL HEALTH", "doi": "10.1177/20552076241289179", "url": "https://sage.cnpereading.com/doi/10.1177/20552076241289179" },
+        { "journal": "Journal of International Medical Research", "doi": "10.1177/03000605241301883", "url": "https://sage.cnpereading.com/doi/10.1177/03000605241301883" }
+      ]
+    }
+  ]
+}

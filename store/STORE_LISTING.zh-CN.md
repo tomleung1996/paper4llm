@@ -25,7 +25,7 @@ Paper for LLMs 将用户当前有权访问的学术论文页面转换为结构�
 - 保留标题、作者、机构、期刊元数据、摘要、关键词、标题层级、列表、表格、公式、图片、图注和脚注。
 - 将文内引用链接到对应参考文献，并保留参考文献顺序、文本、DOI 和外部链接。
 - 明确报告未映射的引用目标，不进行静默猜测。
-- 支持 ScienceDirect、Wiley Online Library、Nature、SpringerLink 和 Science / AAAS 论文页面。
+- 支持 ScienceDirect、Wiley Online Library、Nature、SpringerLink、Science / AAAS、MDPI、Taylor & Francis、Frontiers、Oxford Academic、IEEE Xplore、Wolters Kluwer/Ovid 与 SAGE 论文页面。
 - 自动跟随 Chrome 界面语言，并提供持久化的中文／英文手动设置。
 - 支持复制生成的 Markdown 或下载本地 `.md` 文件。
 
@@ -41,7 +41,7 @@ Paper for LLMs 是独立项目，与所支持的出版商不存在隶属、合�
 
 - **activeTab：** 用户调用扩展后访问当前论文标签页，判断页面是否受支持并启动转换。
 - **scripting：** 当论文页面在扩展加载前已经打开，或页面中尚无可用内容脚本时，注入扩展包内的转换代码。
-- **出版商特定的网站访问权限：** 仅在受支持的 ScienceDirect、Wiley、Nature、SpringerLink 和 Science / AAAS 论文网址上读取 DOM，以提取用户主动请求转换的论文内容。
+- **出版商特定的网站访问权限：** 仅在上列受支持出版商的论文网址上读取 DOM，以提取用户主动请求转换的论文内容。
 
 提交前应确认本节与最终上传的 `manifest.json` 权限完全一致。
 

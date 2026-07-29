@@ -422,7 +422,8 @@
     const resolution = context.resolveCitation(element);
     if (!resolution || !resolution.isCitation) return null;
 
-    const sourceText = normalizeInlineWhitespace(renderPlainText(element)) || "citation";
+    const sourceText = normalizeInlineWhitespace(element.textContent || renderPlainText(element)) || "citation";
+    const visibleSourceText = normalizeInlineWhitespace(renderPlainText(element)) || sourceText;
     if (!resolution.targets.length) {
       if (context.diagnostics) {
         context.diagnostics.unresolvedCitations.push({
@@ -445,20 +446,27 @@
     }
 
     if (resolution.targets.length === 1) {
-      return `[${escapeMarkdown(sourceText)}](#${resolution.targets[0].anchor})`;
+      return `[${escapeMarkdown(visibleSourceText)}](#${resolution.targets[0].anchor})`;
     }
 
-    const isBracketed = /^\s*[[(]/.test(sourceText) && /[\])]\s*$/.test(sourceText);
+    const isBracketed = /^\s*[[(]/.test(visibleSourceText) && /[\])]\s*$/.test(visibleSourceText);
     const links = resolution.targets
       .map((target) => `[${escapeMarkdown(target.label || String(target.index))}](#${target.anchor})`)
       .join(", ");
     return isBracketed ? `[${links}]` : links;
   }
 
+  function renderElementCitation(element, context) {
+    return renderCitation(element, context);
+  }
+
   function renderPlainText(node) {
     if (!node) return "";
     if (node.nodeType === 3) return node.nodeValue || "";
-    if (node.nodeType !== 1 || isNoiseElement(node)) return "";
+    if (node.nodeType !== 1 || isHidden(node) || SKIP_TAGS.has(node.tagName)) return "";
+    if (node.tagName === "NAV" || node.tagName === "FOOTER") return "";
+    const className = typeof node.className === "string" ? node.className : "";
+    if (/(?:^|\s)(?:u-)?visually-hidden(?:\s|$)|(?:^|\s)sr-only(?:\s|$)/i.test(className)) return "";
     if (node.tagName === "IMG") return node.getAttribute("alt") || "";
     return childNodesArray(node).map(renderPlainText).join("");
   }
@@ -470,6 +478,8 @@
 
     const element = node;
     if (context && context.skipNodes && context.skipNodes.has(element)) return "";
+    const citation = renderCitation(element, context);
+    if (citation !== null) return citation;
     if (isNoiseElement(element)) return "";
 
     const tag = element.tagName;
@@ -486,8 +496,6 @@
     }
 
     if (tag === "A") {
-      const citation = renderCitation(element, context);
-      if (citation !== null) return citation;
       const text = normalizeInlineWhitespace(renderInlineChildren(element, context) || element.textContent);
       const href = absoluteUrl(element.getAttribute("href"), context && context.baseUrl);
       if (!text) return href ? `<${href}>` : "";
@@ -517,7 +525,10 @@
     if (tag === "IMG") {
       const alt = normalizeInlineWhitespace(element.getAttribute("alt")) || "image";
       const src = absoluteUrl(
-        element.getAttribute("src") || element.getAttribute("data-src") || element.getAttribute("data-original"),
+        element.getAttribute("src") ||
+        element.getAttribute("data-src") ||
+        element.getAttribute("data-original") ||
+        element.getAttribute("data-lazy-src"),
         context && context.baseUrl,
       );
       return src && (!context || context.includeImages !== false) ? `![${escapeMarkdown(alt)}](${src})` : escapeMarkdown(alt);
@@ -824,6 +835,7 @@
     queryFirst,
     renderBlock,
     renderBlocks,
+    renderElementCitation,
     renderInline,
     renderInlineChildren,
     sanitizeFileName,

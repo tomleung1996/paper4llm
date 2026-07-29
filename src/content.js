@@ -51,6 +51,33 @@
     ) {
       return "science";
     }
+    if ((location.hostname === "www.mdpi.com" || location.hostname === "mdpi.com") && /^\/\d{4}-\d{3,5}\//.test(location.pathname)) {
+      return "mdpi";
+    }
+    if ((location.hostname === "www.tandfonline.com" || location.hostname === "tandfonline.com") && /^\/doi\/(?:full\/|abs\/)?10\./i.test(location.pathname)) {
+      return "taylorfrancis";
+    }
+    if ((location.hostname === "www.frontiersin.org" || location.hostname === "frontiersin.org") && /\/articles\/10\.3389\//i.test(location.pathname)) {
+      return "frontiers";
+    }
+    if (location.hostname === "academic.oup.com" && /\/article\//i.test(location.pathname)) {
+      return "oup";
+    }
+    if (location.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(location.pathname)) {
+      return "ieee";
+    }
+    if (
+      (location.hostname === "www.ovid.com" && /^\/jnls\/.+\/fulltext\//i.test(location.pathname)) ||
+      (location.hostname.endsWith(".lww.com") && /10\.(?:1097|4103)\//i.test(location.pathname))
+    ) {
+      return "wolterskluwer";
+    }
+    if (
+      ((location.hostname === "journals.sagepub.com" || location.hostname === "sage.cnpereading.com") &&
+        /^\/doi\/(?:full\/|abs\/)?10\.1177\//i.test(location.pathname))
+    ) {
+      return "sage";
+    }
     return "";
   }
 

@@ -3,7 +3,7 @@
   "default_locale": "en",
   "name": "__MSG_extensionName__",
   "short_name": "__MSG_extensionShortName__",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "__MSG_extensionDescription__",
   "icons": {
     "16": "assets/icons/icon-16.png",
@@ -21,7 +21,19 @@
     "https://*.nature.com/articles/*",
     "https://link.springer.com/article/*",
     "https://www.science.org/doi/*",
-    "https://science.org/doi/*"
+    "https://science.org/doi/*",
+    "https://www.mdpi.com/*",
+    "https://mdpi.com/*",
+    "https://www.tandfonline.com/doi/*",
+    "https://tandfonline.com/doi/*",
+    "https://www.frontiersin.org/*",
+    "https://frontiersin.org/*",
+    "https://academic.oup.com/*/article/*",
+    "https://ieeexplore.ieee.org/document/*",
+    "https://www.ovid.com/jnls/*",
+    "https://*.lww.com/*",
+    "https://journals.sagepub.com/doi/*",
+    "https://sage.cnpereading.com/doi/*"
   ],
   "action": {
     "default_title": "__MSG_actionTitle__",
@@ -43,7 +55,19 @@
         "https://*.nature.com/articles/*",
         "https://link.springer.com/article/*",
         "https://www.science.org/doi/*",
-        "https://science.org/doi/*"
+        "https://science.org/doi/*",
+        "https://www.mdpi.com/*",
+        "https://mdpi.com/*",
+        "https://www.tandfonline.com/doi/*",
+        "https://tandfonline.com/doi/*",
+        "https://www.frontiersin.org/*",
+        "https://frontiersin.org/*",
+        "https://academic.oup.com/*/article/*",
+        "https://ieeexplore.ieee.org/document/*",
+        "https://www.ovid.com/jnls/*",
+        "https://*.lww.com/*",
+        "https://journals.sagepub.com/doi/*",
+        "https://sage.cnpereading.com/doi/*"
       ],
       "js": [
         "src/i18n.js",
@@ -52,6 +76,7 @@
         "src/wiley.js",
         "src/springernature.js",
         "src/science.js",
+        "src/publisher-platforms.js",
         "src/content.js"
       ],
       "run_at": "document_idle"

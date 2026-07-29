@@ -1,5 +1,12 @@
 # 更新日志
 
+## 1.1.0 — 2026-07-29
+
+- 新增 MDPI、Taylor & Francis、Frontiers、Oxford Academic、IEEE Xplore、Wolters Kluwer/Ovid 与 SAGE Journals 的保留引文链接 Markdown 解析。
+- 每家新增出版商均使用至少三篇来自不同期刊的开放获取论文进行验证。
+- 支持按需加载 IEEE 参考文献，并从出版商结构化数据中恢复 Wolters Kluwer 的完整作者列表。
+- 浏览器回归测试扩展到覆盖全部支持平台的 90 项断言。
+
 [English](CHANGELOG.md) | 简体中文
 
 Paper for LLMs 的重要变更都会记录在此。
