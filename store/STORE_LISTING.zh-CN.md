@@ -25,7 +25,7 @@ Paper for LLMs 将用户当前有权访问的学术论文页面转换为结构�
 - 保留标题、作者、机构、期刊元数据、摘要、关键词、标题层级、列表、表格、公式、图片、图注和脚注。
 - 将文内引用链接到对应参考文献，并保留参考文献顺序、文本、DOI 和外部链接。
 - 明确报告未映射的引用目标，不进行静默猜测。
-- 支持 ScienceDirect、Wiley Online Library、Nature、SpringerLink、Science / AAAS、MDPI、Taylor & Francis、Frontiers、Oxford Academic、IEEE Xplore、Wolters Kluwer/Ovid 与 SAGE 论文页面。
+- 支持 ScienceDirect、Wiley Online Library、Nature、SpringerLink、Science / AAAS、MDPI、Taylor & Francis、Frontiers、Oxford Academic、MIT Press Direct、IEEE Xplore、Wolters Kluwer/Ovid 与 SAGE 论文页面。
 - 自动跟随 Chrome 界面语言，并提供持久化的中文／英文手动设置。
 - 支持复制生成的 Markdown 或下载本地 `.md` 文件。
 
@@ -64,6 +64,7 @@ Paper for LLMs 不需要账户或测试凭据。
    - `https://www.sciencedirect.com/science/article/pii/S0048733320301475`
    - `https://asistdl.onlinelibrary.wiley.com/doi/10.1002/asi.70104`
    - `https://www.science.org/doi/10.1126/sciadv.ads7738`
+   - `https://direct.mit.edu/qss/article/doi/10.1162/qss_a_00346/126307/Teaching-counts-Open-Educational-Resources-as-an`
 3. 如果出版商显示 Cookie 或人机验证页面，请先完成验证；扩展不会绕过该流程。
 4. 点击 Paper for LLMs 图标，然后点击**转换当前论文**。
 5. 确认输出包含 Markdown 标题和参考文献章节。

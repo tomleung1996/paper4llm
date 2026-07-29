@@ -163,7 +163,12 @@
       ".number",
       ".ref-number",
     ]).replace(/[.)\]]+$/g, "");
-    const id = entry.id || entry.getAttribute("data-legacy-id") || entry.getAttribute("content-id") || "";
+    const id =
+      entry.id ||
+      entry.getAttribute("data-legacy-id") ||
+      entry.getAttribute("content-id") ||
+      entry.getAttribute("data-content-id") ||
+      "";
     const match = id.match(/(?:bibr|bib|ref|b)(\d+)/i) || id.match(/(\d+)$/);
     return explicit || (match && String(Number(match[1]))) || String(index + 1);
   }
@@ -182,15 +187,19 @@
       "data-ref-id",
       "data-rid",
       "data-bib-id",
+      "data-content-id",
       "data-id",
       "name",
     ].forEach((attribute) => add(entry.getAttribute(attribute)));
-    Array.from(entry.querySelectorAll("[id], [name], [data-legacy-id], [content-id]")).forEach(
+    Array.from(
+      entry.querySelectorAll("[id], [name], [data-legacy-id], [content-id], [data-content-id]"),
+    ).forEach(
       (element) => {
         add(element.id);
         add(element.getAttribute("name"));
         add(element.getAttribute("data-legacy-id"));
         add(element.getAttribute("content-id"));
+        add(element.getAttribute("data-content-id"));
       },
     );
     if (/^\d+$/.test(String(label))) {
@@ -519,6 +528,58 @@
     noiseSelectors: ".js-splitview-ref-list, .references, .related-articles, .article-metrics",
   };
 
+  const mitPressProfile = {
+    publisher: "MIT Press",
+    sourcePlatform: "MIT Press Direct",
+    titleSelectors: ["h1.article-title-main", "h1"],
+    abstractSelectors: [
+      ".widget-ArticleFulltext .widget-items > .abstract-title + div",
+      ".abstract",
+    ],
+    bodySelectors: [".widget-ArticleFulltext .widget-items", ".article-body"],
+    referenceContainerSelectors: [
+      ".widget-ArticleFulltext .backreferences-title + div",
+      ".backreferences-title + div",
+    ],
+    prepareDocument: (document) => {
+      document.querySelectorAll(".fig.fig-section").forEach((wrapper) => {
+        if (wrapper.tagName === "FIGURE") return;
+        const figure = document.createElement("figure");
+        figure.className = wrapper.className;
+        while (wrapper.firstChild) figure.appendChild(wrapper.firstChild);
+        wrapper.replaceWith(figure);
+      });
+    },
+    referenceEntrySelector: '[data-content-id^="bib"]',
+    referenceContentSelector: ".ref-content, .ref",
+    referenceNoiseSelectors: [
+      ".citation-links",
+      ".ref-links",
+      ".reference-links",
+      ".google-scholar",
+      ".google-scholar-ref-link",
+      ".js-ref-link",
+    ].join(", "),
+    citationTokens: (element) => [
+      element.getAttribute("data-modal-source-id") ||
+      element.getAttribute("data-content-id") ||
+      element.getAttribute("href") ||
+      "",
+    ],
+    isCitation: (element) => element.matches("a.xref-bibr, a.link-ref[data-modal-source-id]"),
+    noiseSelectors: [
+      ".abstract-title",
+      ".backreferences-title",
+      ".backreferences-title + div",
+      ".authornotes-section-wrapper",
+      ".permissionstatement-section-wrapper",
+      ".article-metadata-standalone-panel",
+      ".fig-orig",
+      ".table-modal",
+      "#sr-fig-viewer-action",
+    ].join(", "),
+  };
+
   const sageProfile = {
     publisher: "SAGE Publications",
     sourcePlatform: "SAGE Journals",
@@ -555,6 +616,7 @@
   const mdpi = makeExtractor(mdpiProfile);
   const taylorfrancis = makeExtractor(taylorFrancisProfile);
   const oup = makeExtractor(oupProfile);
+  const mitpress = makeExtractor(mitPressProfile);
   const sage = makeExtractor(sageProfile);
   const frontiersBase = makeExtractor(frontiersBaseProfile);
 
@@ -743,6 +805,7 @@
   PaperMd.taylorfrancis = taylorfrancis;
   PaperMd.frontiers = frontiersBase;
   PaperMd.oup = oup;
+  PaperMd.mitpress = mitpress;
   PaperMd.ieee = { extract: extractIeee, extractMetadata: ieeeMetadata, prepare: prepareIeee };
   PaperMd.wolterskluwer = makeExtractor(woltersProfile);
   PaperMd.sage = sage;
@@ -753,6 +816,7 @@
       taylorfrancis: PaperMd.taylorfrancis,
       frontiers: PaperMd.frontiers,
       oup: PaperMd.oup,
+      mitpress: PaperMd.mitpress,
       ieee: PaperMd.ieee,
       wolterskluwer: PaperMd.wolterskluwer,
       sage: PaperMd.sage,

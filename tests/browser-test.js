@@ -260,6 +260,16 @@
     assert("Oxford: extracts metadata", oupResult.metadata.journal === "Nucleic Acids Research");
     assert("Oxford: maps reveal-id citations", oupResult.markdown.includes("[Author, 2025](#ref-1)"));
 
+    const mitPressResult = extractFixture("mitpress-fixture", globalThis.PaperMd.mitpress);
+    assert("MIT Press: extracts QSS metadata", mitPressResult.metadata.journal === "Quantitative Science Studies" && mitPressResult.metadata.doi === "10.1162/qss_a_example");
+    assert("MIT Press: extracts all authors", mitPressResult.metadata.authors.join("|") === "MIT Author One|MIT Author Two");
+    assert("MIT Press: maps data-modal-source-id citations", mitPressResult.markdown.includes("[Author, 2025](#ref-1)") && mitPressResult.diagnostics.unresolvedCitations.length === 0);
+    assert("MIT Press: preserves figures", mitPressResult.markdown.includes("https://direct.mit.edu/qss/example-figure.png"));
+    assert("MIT Press: preserves display formulas and tables", mitPressResult.markdown.includes("$$\n\\frac{a}{b}\n$$") && mitPressResult.markdown.includes("Example table cell"));
+    assert("MIT Press: emits one abstract section", mitPressResult.markdown.match(/## Abstract/g)?.length === 1);
+    assert("MIT Press: omits page controls and duplicated modal tables", !mitPressResult.markdown.includes("View large") && !mitPressResult.markdown.includes("Duplicate modal cell"));
+    assert("MIT Press: omits reference controls", !mitPressResult.markdown.includes("Google Scholar") && !mitPressResult.markdown.includes("Crossref") && !mitPressResult.markdown.includes("License boilerplate"));
+
     const ieeeResult = extractFixture("ieee-fixture", globalThis.PaperMd.ieee);
     assert("IEEE: extracts visible metadata", ieeeResult.metadata.journal === "IEEE Access" && ieeeResult.metadata.doi === "10.1109/ACCESS.2026.1");
     assert("IEEE: extracts all displayed authors", ieeeResult.metadata.authors.join("|") === "IEEE Author One|IEEE Author Two");
@@ -314,7 +324,7 @@
     assert("Wiley: waits for a delayed reference container", delayedWileyResult.diagnostics.references === 1);
     assert("Wiley: resolves citations after delayed loading", delayedWileyResult.markdown.includes("[1](#ref-1)"));
 
-    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}\n\n${mdpiResult.markdown}\n\n${taylorFrancisResult.markdown}\n\n${frontiersResult.markdown}\n\n${oupResult.markdown}\n\n${ieeeResult.markdown}\n\n${woltersResult.markdown}\n\n${sageResult.markdown}`;
+    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}\n\n${mdpiResult.markdown}\n\n${taylorFrancisResult.markdown}\n\n${frontiersResult.markdown}\n\n${oupResult.markdown}\n\n${mitPressResult.markdown}\n\n${ieeeResult.markdown}\n\n${woltersResult.markdown}\n\n${sageResult.markdown}`;
   } catch (error) {
     assertions.push({ name: error.stack || error.message, pass: false });
   }

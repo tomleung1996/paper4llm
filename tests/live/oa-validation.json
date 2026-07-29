@@ -34,6 +34,14 @@
       ]
     },
     {
+      "publisher": "MIT Press",
+      "samples": [
+        { "journal": "Quantitative Science Studies", "doi": "10.1162/qss_a_00346", "url": "https://direct.mit.edu/qss/article/doi/10.1162/qss_a_00346/126307/Teaching-counts-Open-Educational-Resources-as-an" },
+        { "journal": "Open Mind", "doi": "10.1162/opmi_a_00180", "url": "https://direct.mit.edu/opmi/article/doi/10.1162/opmi_a_00180/127600/Beliefs-About-the-Speaker-s-Reasoning-Ability" },
+        { "journal": "Network Neuroscience", "doi": "10.1162/netn_a_00424", "url": "https://direct.mit.edu/netn/article/9/1/159/125113/Neural-network-embedding-of-functional" }
+      ]
+    },
+    {
       "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
       "samples": [
         { "journal": "IEEE Access", "doi": "10.1109/ACCESS.2024.3523940", "url": "https://ieeexplore.ieee.org/document/10818484/" },

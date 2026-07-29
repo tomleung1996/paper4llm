@@ -1,12 +1,5 @@
 # Changelog
 
-## 1.1.0 — 2026-07-29
-
-- Add citation-linked Markdown extraction for MDPI, Taylor & Francis, Frontiers, Oxford Academic, IEEE Xplore, Wolters Kluwer/Ovid, and SAGE Journals.
-- Validate each new publisher against at least three open-access articles from different journals.
-- Load IEEE references on demand and recover complete Wolters Kluwer author lists from publisher-provided structured data.
-- Expand browser regression coverage to 90 assertions across all supported platforms.
-
 English | [简体中文](CHANGELOG.zh-CN.md)
 
 All notable changes to Paper for LLMs will be documented here.
@@ -14,6 +7,20 @@ All notable changes to Paper for LLMs will be documented here.
 ## Unreleased
 
 - No changes yet.
+
+## 1.2.0 — 2026-07-29
+
+- Add MIT Press Direct support, including Quantitative Science Studies, Open Mind, Network Neuroscience, and other journals using the same article platform.
+- Preserve MIT Press citation-to-reference links through `data-modal-source-id` and `data-content-id` identifiers.
+- Preserve MIT Press figures, captions, tables, and MathML formulas while removing duplicate viewer controls and reference lookup links.
+- Validate the extractor against three open-access articles from three MIT Press journals and expand browser regression coverage to 98 assertions.
+
+## 1.1.0 — 2026-07-29
+
+- Add citation-linked Markdown extraction for MDPI, Taylor & Francis, Frontiers, Oxford Academic, IEEE Xplore, Wolters Kluwer/Ovid, and SAGE Journals.
+- Validate each new publisher against at least three open-access articles from different journals.
+- Load IEEE references on demand and recover complete Wolters Kluwer author lists from publisher-provided structured data.
+- Expand browser regression coverage to 90 assertions across all supported platforms.
 
 ## 1.0.0 — 2026-07-25
 

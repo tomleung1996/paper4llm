@@ -63,6 +63,9 @@
     if (location.hostname === "academic.oup.com" && /\/article\//i.test(location.pathname)) {
       return "oup";
     }
+    if (location.hostname === "direct.mit.edu" && /^\/[^/]+\/article\//i.test(location.pathname)) {
+      return "mitpress";
+    }
     if (location.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(location.pathname)) {
       return "ieee";
     }

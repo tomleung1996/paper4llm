@@ -99,6 +99,9 @@
       if (parsed.hostname === "academic.oup.com" && /\/article\//i.test(parsed.pathname)) {
         return { id: "oup", label: "Oxford Academic" };
       }
+      if (parsed.hostname === "direct.mit.edu" && /^\/[^/]+\/article\//i.test(parsed.pathname)) {
+        return { id: "mitpress", label: "MIT Press Direct" };
+      }
       if (parsed.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(parsed.pathname)) {
         return { id: "ieee", label: "IEEE Xplore" };
       }

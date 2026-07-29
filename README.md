@@ -15,6 +15,7 @@ The extension currently supports:
 - Taylor & Francis Online
 - Frontiers
 - Oxford Academic
+- MIT Press Direct
 - IEEE Xplore
 - Wolters Kluwer / Ovid
 - SAGE Journals, including the SAGE China platform
@@ -45,6 +46,7 @@ https://www.mdpi.com/ISSN/volume/issue/article
 https://www.tandfonline.com/doi/full/10....
 https://www.frontiersin.org/journals/.../articles/10.3389/.../full
 https://academic.oup.com/.../article/...
+https://direct.mit.edu/.../article/...
 https://ieeexplore.ieee.org/document/...
 https://www.ovid.com/jnls/.../fulltext/...
 https://journals.sagepub.com/doi/10.1177/...
@@ -77,7 +79,7 @@ Paper for LLMs prioritizes publisher-provided identifiers rather than matching r
 - Wiley citation links are mapped to the corresponding `data-bib-id` entries.
 - Nature and SpringerLink fragments such as `ref-CR30` are mapped to their reference containers.
 - Science / AAAS `data-xml-rid` values are mapped to bibliography entry IDs.
-- MDPI fragment IDs, Taylor & Francis `data-rid` values, Frontiers reference buttons, Oxford `reveal-id` values, IEEE `anchor` values, Wolters Kluwer hydrated `refId` values, and SAGE `data-ref-id` values are mapped to their publisher reference entries.
+- MDPI fragment IDs, Taylor & Francis `data-rid` values, Frontiers reference buttons, Oxford `reveal-id` values, MIT Press `data-modal-source-id` values, IEEE `anchor` values, Wolters Kluwer hydrated `refId` values, and SAGE `data-ref-id` values are mapped to their publisher reference entries.
 
 The generated Markdown ends with an audit marker similar to:
 
@@ -135,7 +137,7 @@ src/sciencedirect.js     ScienceDirect extractor
 src/wiley.js             Wiley extractor
 src/springernature.js    Nature and SpringerLink extractor
 src/science.js           Science / AAAS extractor
-src/publisher-platforms.js  MDPI, Taylor & Francis, Frontiers, Oxford, IEEE, Wolters Kluwer, and SAGE extractors
+src/publisher-platforms.js  MDPI, Taylor & Francis, Frontiers, Oxford, MIT Press, IEEE, Wolters Kluwer, and SAGE extractors
 tests/                   Unit and browser DOM fixtures
 store/                   Chrome Web Store copy and release checklist
 CONTRIBUTING*.md          Contribution guides

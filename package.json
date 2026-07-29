@@ -1,6 +1,6 @@
 {
   "name": "paper4llm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Paper for LLMs Chrome extension for converting scholarly articles to citation-linked Markdown.",
   "license": "MIT",
