@@ -4,7 +4,7 @@ English | [简体中文](PRIVACY.zh-CN.md)
 
 **Effective date:** July 25, 2026
 
-**Last updated:** July 25, 2026
+**Last updated:** July 30, 2026
 
 ## 1. Scope and single purpose
 
@@ -17,7 +17,7 @@ The extension does not bypass accounts, institutional access, paywalls, or publi
 To provide the conversion requested by the user, Paper for LLMs handles the following information locally:
 
 - The content and structure of the supported article page, including article text, metadata, citations, references, figures, tables, formulas, and links.
-- The current article URL, used to identify the supported publisher and preserve the source URL in the output.
+- The current article URL, used to identify the supported site and preserve the source URL in the output.
 - The interface-language preference selected by the user, if the automatic language setting is overridden.
 
 Chrome Web Store policy treats website content and URLs as user data even when they are processed only on the user's device. Paper for LLMs therefore discloses this local handling explicitly.
@@ -45,7 +45,7 @@ The user may copy generated Markdown to the clipboard or download it as a local 
 
 ## 5. Images and third-party links
 
-When image links are enabled, Paper for LLMs preserves publisher-hosted image URLs in the generated Markdown. The extension does not proxy or separately download those images. Opening a publisher URL or rendering a remote image is subject to that publisher's privacy policy, access controls, cookies, and terms.
+When image links are enabled, Paper for LLMs preserves source-hosted image URLs in the generated Markdown. The extension does not proxy or separately download those images. Opening a source URL or rendering a remote image is subject to that site's privacy policy, access controls, cookies, and terms.
 
 ## 6. Permissions
 
@@ -53,7 +53,7 @@ Paper for LLMs currently requests:
 
 - `activeTab`: access the article tab after the user invokes the extension.
 - `scripting`: inject the packaged converter when it is not already available in the current page.
-- Publisher-specific host access: read the DOM on supported ScienceDirect, Wiley, Nature, SpringerLink, and Science / AAAS article URL patterns.
+- Supported-site host access: read the DOM only on the scholarly article URL patterns declared in the extension manifest, including the listed publisher platforms and arXiv HTML.
 
 The extension does not use remotely hosted code. All executable code is included in the extension package.
 

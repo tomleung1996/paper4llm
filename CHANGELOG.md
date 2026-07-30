@@ -8,6 +8,13 @@ All notable changes to Paper for LLMs will be documented here.
 
 - No changes yet.
 
+## 1.3.0 — 2026-07-30
+
+- Add full-text arXiv HTML support for both modern and legacy arXiv identifier URLs.
+- Preserve LaTeXML citation-to-reference links, author and affiliation metadata, arXiv version/category metadata, formulas, figures, tables, captions, and hidden footnote content.
+- Prevent DOI values found inside arXiv references from being misidentified as the paper DOI, and remove duplicated title/author blocks and bibliography back-reference controls.
+- Validate the extractor against three open-access arXiv HTML papers from computer science, quantum physics, and biophysics, and expand browser regression coverage to 108 assertions.
+
 ## 1.2.0 — 2026-07-29
 
 - Add MIT Press Direct support, including Quantitative Science Studies, Open Mind, Network Neuroscience, and other journals using the same article platform.

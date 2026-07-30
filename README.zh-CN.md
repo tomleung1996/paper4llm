@@ -16,13 +16,14 @@ Paper for LLMs 是一个 Chrome Manifest V3 扩展，用于将浏览器中已经
 - Frontiers
 - Oxford Academic
 - MIT Press Direct
+- arXiv HTML
 - IEEE Xplore
 - Wolters Kluwer / Ovid
 - SAGE Journals（含 SAGE 中国平台）
 
 ## 功能
 
-- 提取标题、作者、机构、期刊元数据、出版日期、DOI、PII、摘要、Highlights 和关键词。
+- 提取标题、作者、机构、期刊元数据、出版日期、DOI、PII 或 arXiv ID、摘要、Highlights 和关键词。
 - 保留标题层级、段落、列表、表格、公式、图片、图注和脚注。
 - 在出版商提供可靠 DOM 目标时，将文内引用链接到对应参考文献。
 - 保留参考文献顺序、显示标签、文本、DOI 和外部链接。
@@ -47,6 +48,8 @@ https://www.tandfonline.com/doi/full/10....
 https://www.frontiersin.org/journals/.../articles/10.3389/.../full
 https://academic.oup.com/.../article/...
 https://direct.mit.edu/.../article/...
+https://arxiv.org/html/2607.27178
+https://arxiv.org/html/hep-th/9901001
 https://ieeexplore.ieee.org/document/...
 https://www.ovid.com/jnls/.../fulltext/...
 https://journals.sagepub.com/doi/10.1177/...
@@ -79,6 +82,7 @@ Paper for LLMs 优先使用出版商页面提供的标识符，而不是根据�
 - Wiley：将引文链接映射到对应的 `data-bib-id` 条目。
 - Nature 与 SpringerLink：将 `ref-CR30` 等 fragment 映射到参考文献容器。
 - Science / AAAS：将 `data-xml-rid` 映射到参考文献条目 ID。
+- arXiv：将 LaTeXML 的 `#bib.*` 目标映射到对应的 `.ltx_bibitem` 参考文献条目。
 - MDPI fragment、Taylor & Francis `data-rid`、Frontiers 引用按钮、Oxford `reveal-id`、MIT Press `data-modal-source-id`、IEEE `anchor`、Wolters Kluwer 结构化 `refId` 以及 SAGE `data-ref-id` 均映射到出版商参考文献条目。
 
 生成的 Markdown 末尾包含类似以下审计标记：
@@ -137,7 +141,7 @@ src/sciencedirect.js     ScienceDirect 解析器
 src/wiley.js             Wiley 解析器
 src/springernature.js    Nature 与 SpringerLink 解析器
 src/science.js           Science / AAAS 解析器
-src/publisher-platforms.js  MDPI、Taylor & Francis、Frontiers、Oxford、MIT Press、IEEE、Wolters Kluwer 与 SAGE 解析器
+src/publisher-platforms.js  MDPI、Taylor & Francis、Frontiers、Oxford、MIT Press、arXiv、IEEE、Wolters Kluwer 与 SAGE 解析器
 tests/                   单元测试和浏览器 DOM 样例
 store/                   Chrome Web Store 文案与发布清单
 CONTRIBUTING*.md          贡献指南
@@ -151,6 +155,7 @@ CHANGELOG*.md             版本记录
 - 出版商页面结构会持续变化，新的页面变体可能需要更新选择器。
 - 当出版商要求会话 Cookie 或人机验证时，远程图片链接可能无法在浏览器外加载。
 - 部分 SpringerLink 表格位于单独的详情页面；扩展会保留链接，不额外抓取页面。
+- arXiv 支持依赖 arXiv 已生成 HTML 全文；仅提供 PDF 的论文暂时无法转换。
 - 完全由图片表示的公式、交互式图表和补充材料不会被下载。
 - 第一版保留远程图片 URL，不会将图片文件与 Markdown 一起打包。
 

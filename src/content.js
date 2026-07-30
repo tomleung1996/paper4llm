@@ -66,6 +66,12 @@
     if (location.hostname === "direct.mit.edu" && /^\/[^/]+\/article\//i.test(location.pathname)) {
       return "mitpress";
     }
+    if (
+      (location.hostname === "arxiv.org" || location.hostname === "www.arxiv.org") &&
+      /^\/html\/(?:[a-z.-]+\/\d{7}|\d{4}\.\d{4,5})(?:v\d+)?\/?$/i.test(location.pathname)
+    ) {
+      return "arxiv";
+    }
     if (location.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(location.pathname)) {
       return "ieee";
     }

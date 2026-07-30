@@ -8,6 +8,13 @@ Paper for LLMs 的重要变更都会记录在此。
 
 - 暂无变更。
 
+## 1.3.0 — 2026-07-30
+
+- 新增 arXiv HTML 全文支持，兼容现代编号与旧式分类编号网址。
+- 保留 LaTeXML 文内引用到参考文献的链接、作者与机构、arXiv 版本和分类元数据、公式、图片、表格、图注及隐藏脚注内容。
+- 避免将 arXiv 参考文献中的 DOI 误识别为论文本身的 DOI，并移除重复标题／作者块和参考文献回链控件。
+- 使用计算机科学、量子物理和生物物理领域的三篇开放获取 arXiv HTML 论文完成验证，并将浏览器回归测试扩展到 108 项断言。
+
 ## 1.2.0 — 2026-07-29
 
 - 新增 MIT Press Direct 支持，覆盖 Quantitative Science Studies、Open Mind、Network Neuroscience 以及使用相同论文平台的其他期刊。

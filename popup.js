@@ -102,6 +102,12 @@
       if (parsed.hostname === "direct.mit.edu" && /^\/[^/]+\/article\//i.test(parsed.pathname)) {
         return { id: "mitpress", label: "MIT Press Direct" };
       }
+      if (
+        (parsed.hostname === "arxiv.org" || parsed.hostname === "www.arxiv.org") &&
+        /^\/html\/(?:[a-z.-]+\/\d{7}|\d{4}\.\d{4,5})(?:v\d+)?\/?$/i.test(parsed.pathname)
+      ) {
+        return { id: "arxiv", label: "arXiv HTML" };
+      }
       if (parsed.hostname === "ieeexplore.ieee.org" && /^\/document\/\d+/i.test(parsed.pathname)) {
         return { id: "ieee", label: "IEEE Xplore" };
       }

@@ -25,7 +25,7 @@ Key features:
 - Preserve title, authors, affiliations, journal metadata, abstract, keywords, headings, lists, tables, formulas, figures, captions, and footnotes.
 - Link in-text citations to matching reference entries and preserve reference order, text, DOI, and external links.
 - Report unresolved citation targets instead of silently guessing.
-- Support ScienceDirect, Wiley Online Library, Nature, SpringerLink, Science / AAAS, MDPI, Taylor & Francis, Frontiers, Oxford Academic, MIT Press Direct, IEEE Xplore, Wolters Kluwer/Ovid, and SAGE article pages.
+- Support ScienceDirect, Wiley Online Library, Nature, SpringerLink, Science / AAAS, MDPI, Taylor & Francis, Frontiers, Oxford Academic, MIT Press Direct, arXiv HTML, IEEE Xplore, Wolters Kluwer/Ovid, and SAGE article pages.
 - Follow the Chrome interface language automatically, with a persistent Chinese/English override.
 - Copy the generated Markdown or download it as a local `.md` file.
 
@@ -41,7 +41,7 @@ Convert the currently opened supported scholarly article page into structured Ma
 
 - **activeTab:** Access the current article tab after the user invokes the extension, detect whether the page is supported, and initiate conversion.
 - **scripting:** Inject the converter code packaged with the extension when the supported page was opened before the extension was loaded or the content script is otherwise unavailable.
-- **Publisher-specific host access:** Read the DOM only on the supported publisher article URL patterns listed above to extract the article content requested by the user.
+- **Supported-site host access:** Read the DOM only on the supported scholarly article URL patterns listed above to extract the article content requested by the user.
 
 Before submission, verify that this section exactly matches the permissions in the uploaded `manifest.json`.
 
@@ -65,6 +65,7 @@ No Paper for LLMs account or test credentials are required.
    - `https://asistdl.onlinelibrary.wiley.com/doi/10.1002/asi.70104`
    - `https://www.science.org/doi/10.1126/sciadv.ads7738`
    - `https://direct.mit.edu/qss/article/doi/10.1162/qss_a_00346/126307/Teaching-counts-Open-Educational-Resources-as-an`
+   - `https://arxiv.org/html/2607.27178`
 3. Complete any publisher-provided cookie or human-verification page if it appears. The extension does not bypass it.
 4. Select the Paper for LLMs icon and choose **Convert current paper**.
 5. Confirm that the output contains Markdown headings and a References section.

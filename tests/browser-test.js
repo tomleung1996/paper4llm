@@ -270,6 +270,38 @@
     assert("MIT Press: omits page controls and duplicated modal tables", !mitPressResult.markdown.includes("View large") && !mitPressResult.markdown.includes("Duplicate modal cell"));
     assert("MIT Press: omits reference controls", !mitPressResult.markdown.includes("Google Scholar") && !mitPressResult.markdown.includes("Crossref") && !mitPressResult.markdown.includes("License boilerplate"));
 
+    const arxivResult = extractFixture("arxiv-fixture", globalThis.PaperMd.arxiv);
+    assert(
+      "arXiv: extracts HTML metadata without borrowing a reference DOI",
+      arxivResult.metadata.title === "A representative arXiv HTML paper" &&
+        arxivResult.metadata.journal === "arXiv" &&
+        arxivResult.metadata.arxivId === "2607.12345v2" &&
+        arxivResult.metadata.publicationDate === "30 Jul 2026" &&
+        arxivResult.metadata.doi === "" &&
+        arxivResult.metadata.keywords.includes("cs.CL") &&
+        arxivResult.markdown.includes('arxiv_id: "2607.12345v2"'),
+    );
+    assert("arXiv: extracts mixed author markup", arxivResult.metadata.authors.join("|") === "Ada Arxiv|Ben Beta|Cara Gamma");
+    assert("arXiv: extracts affiliations", arxivResult.metadata.affiliations.join("|") === "Example Institute for Language Models|Open Research Laboratory");
+    assert(
+      "arXiv: maps LaTeXML bibliography targets",
+      arxivResult.markdown.includes("[&#91;1&#93;](#ref-1)") &&
+        arxivResult.diagnostics.references === 1 &&
+        arxivResult.diagnostics.resolvedCitationLinks === 1 &&
+        arxivResult.diagnostics.unresolvedCitations.length === 0,
+    );
+    assert("arXiv: preserves figures", arxivResult.markdown.includes("https://arxiv.org/figures/example.png") && arxivResult.markdown.includes("A preserved figure caption"));
+    assert("arXiv: preserves inline and display formulas plus tables", arxivResult.markdown.includes("$x+y$") && arxivResult.markdown.includes("$$\n\\frac{a}{b}\n$$") && arxivResult.markdown.includes("Paper4LLM"));
+    assert("arXiv: emits one abstract and keeps unsectioned prose", arxivResult.markdown.match(/## Abstract/g)?.length === 1 && arxivResult.markdown.includes("This unsectioned introduction must remain") && !arxivResult.markdown.includes("Duplicate conversion front matter"));
+    assert("arXiv: preserves hidden footnote content", arxivResult.diagnostics.footnotes === 1 && arxivResult.markdown.includes("Footnote: The hidden arXiv footnote text must remain readable in Markdown"));
+    assert("arXiv: preserves reference links and removes cited-by controls", arxivResult.markdown.includes("https://doi.org/10.1000/arxiv.reference") && !arxivResult.markdown.includes("Cited by:"));
+    const legacyArxivDocument = new DOMParser().parseFromString(
+      '<!doctype html><html><head><link rel="canonical" href="https://arxiv.org/html/hep-th/9901001v2"></head><body><article class="ltx_document"><h1 class="ltx_title_document">A legacy arXiv paper</h1></article></body></html>',
+      "text/html",
+    );
+    const legacyArxivMetadata = globalThis.PaperMd.arxiv.extractMetadata(legacyArxivDocument);
+    assert("arXiv: recognizes legacy archive identifiers", legacyArxivMetadata.arxivId === "hep-th/9901001v2");
+
     const ieeeResult = extractFixture("ieee-fixture", globalThis.PaperMd.ieee);
     assert("IEEE: extracts visible metadata", ieeeResult.metadata.journal === "IEEE Access" && ieeeResult.metadata.doi === "10.1109/ACCESS.2026.1");
     assert("IEEE: extracts all displayed authors", ieeeResult.metadata.authors.join("|") === "IEEE Author One|IEEE Author Two");
@@ -324,7 +356,7 @@
     assert("Wiley: waits for a delayed reference container", delayedWileyResult.diagnostics.references === 1);
     assert("Wiley: resolves citations after delayed loading", delayedWileyResult.markdown.includes("[1](#ref-1)"));
 
-    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}\n\n${mdpiResult.markdown}\n\n${taylorFrancisResult.markdown}\n\n${frontiersResult.markdown}\n\n${oupResult.markdown}\n\n${mitPressResult.markdown}\n\n${ieeeResult.markdown}\n\n${woltersResult.markdown}\n\n${sageResult.markdown}`;
+    output.textContent = `${result.markdown}\n\n${wileyResult.markdown}\n\n${springerResult.markdown}\n\n${scienceResult.markdown}\n\n${paywalledScienceResult.markdown}\n\n${delayedWileyResult.markdown}\n\n${mdpiResult.markdown}\n\n${taylorFrancisResult.markdown}\n\n${frontiersResult.markdown}\n\n${oupResult.markdown}\n\n${mitPressResult.markdown}\n\n${arxivResult.markdown}\n\n${ieeeResult.markdown}\n\n${woltersResult.markdown}\n\n${sageResult.markdown}`;
   } catch (error) {
     assertions.push({ name: error.stack || error.message, pass: false });
   }

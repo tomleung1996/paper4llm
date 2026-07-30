@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29",
+  "generated_at": "2026-07-30",
   "publishers": [
     {
       "publisher": "MDPI AG",
@@ -39,6 +39,14 @@
         { "journal": "Quantitative Science Studies", "doi": "10.1162/qss_a_00346", "url": "https://direct.mit.edu/qss/article/doi/10.1162/qss_a_00346/126307/Teaching-counts-Open-Educational-Resources-as-an" },
         { "journal": "Open Mind", "doi": "10.1162/opmi_a_00180", "url": "https://direct.mit.edu/opmi/article/doi/10.1162/opmi_a_00180/127600/Beliefs-About-the-Speaker-s-Reasoning-Ability" },
         { "journal": "Network Neuroscience", "doi": "10.1162/netn_a_00424", "url": "https://direct.mit.edu/netn/article/9/1/159/125113/Neural-network-embedding-of-functional" }
+      ]
+    },
+    {
+      "publisher": "arXiv",
+      "samples": [
+        { "journal": "arXiv · cs.CL", "arxiv_id": "2607.27178v1", "url": "https://arxiv.org/html/2607.27178" },
+        { "journal": "arXiv · quant-ph", "arxiv_id": "2607.27204v1", "url": "https://arxiv.org/html/2607.27204" },
+        { "journal": "arXiv · physics.bio-ph / q-bio.NC", "arxiv_id": "2607.26295v1", "url": "https://arxiv.org/html/2607.26295" }
       ]
     },
     {

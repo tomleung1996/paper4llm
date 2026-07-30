@@ -122,12 +122,16 @@
       ]) ||
       core.normalizeInlineWhitespace(schema.datePublished) ||
       (profile.extractPublicationDate ? profile.extractPublicationDate(document) : "");
-    const doi =
+    const explicitDoi =
       core.normalizeDoi(core.firstMeta(document, ["citation_doi", "prism.doi", "dc.identifier"])) ||
       core.normalizeDoi(schema.identifier) ||
       core.normalizeDoi(profile.extractDoi ? profile.extractDoi(document) : "") ||
-      core.normalizeDoi(url) ||
-      core.normalizeDoi(document.body && document.body.textContent);
+      core.normalizeDoi(url);
+    const doi = explicitDoi ||
+      (profile.allowBodyDoiFallback === false
+        ? ""
+        : core.normalizeDoi(document.body && document.body.textContent));
+    const arxivId = profile.extractArxivId ? profile.extractArxivId(document, url) : "";
     const keywords = core.unique([
       ...core.metaContents(document, ["citation_keywords", "keywords", "dc.subject"])
         .flatMap((value) => value.split(/[;,]/)),
@@ -143,6 +147,7 @@
       publicationDate,
       year: (publicationDate.match(/(?:19|20)\d{2}/) || [""])[0],
       doi,
+      arxivId,
       url,
       publisher: profile.publisher,
       sourcePlatform: profile.sourcePlatform,
@@ -329,6 +334,7 @@
     if (metadata.publicationDate) lines.push(`publication_date: ${core.yamlString(metadata.publicationDate)}`);
     if (metadata.year) lines.push(`year: ${core.yamlString(metadata.year)}`);
     if (metadata.doi) lines.push(`doi: ${core.yamlString(metadata.doi)}`);
+    if (metadata.arxivId) lines.push(`arxiv_id: ${core.yamlString(metadata.arxivId)}`);
     if (metadata.url) lines.push(`source_url: ${core.yamlString(metadata.url)}`);
     lines.push(
       `publisher: ${core.yamlString(metadata.publisher)}`,
@@ -389,7 +395,7 @@
       const referenceIndex = buildReferenceIndex(referenceEntries, metadata.url, profile);
       const diagnostics = {
         references: referenceIndex.references.length,
-        footnotes: 0,
+        footnotes: profile.countFootnotes ? profile.countFootnotes(document) : 0,
         resolvedCitationLinks: 0,
         resolvedFootnoteLinks: 0,
         unresolvedCitations: [],
@@ -444,6 +450,9 @@
         .join(", ");
       if (publication) chunks.push(`**Published in:** ${publication}`);
       if (metadata.doi) chunks.push(`**DOI:** [${metadata.doi}](https://doi.org/${metadata.doi})`);
+      if (metadata.arxivId) {
+        chunks.push(`**arXiv:** [${metadata.arxivId}](https://arxiv.org/abs/${metadata.arxivId})`);
+      }
       if (metadata.keywords.length) {
         chunks.push(`**Keywords:** ${metadata.keywords.map(core.escapeMarkdown).join("; ")}`);
       }
@@ -451,7 +460,7 @@
       if (bodyMarkdown) chunks.push(bodyMarkdown);
       if (referenceMarkdown) chunks.push(`## References\n\n${referenceMarkdown}`);
       chunks.push(
-        `<!-- paper-md-integrity: references=${diagnostics.references}; citation_targets_resolved=${diagnostics.resolvedCitationLinks}; footnotes=0; footnote_targets_resolved=0; citation_targets_unresolved=${diagnostics.unresolvedCitations.length} -->`,
+        `<!-- paper-md-integrity: references=${diagnostics.references}; citation_targets_resolved=${diagnostics.resolvedCitationLinks}; footnotes=${diagnostics.footnotes}; footnote_targets_resolved=${diagnostics.resolvedFootnoteLinks}; citation_targets_unresolved=${diagnostics.unresolvedCitations.length} -->`,
       );
 
       return {
@@ -470,6 +479,143 @@
       .map((node) => core.normalizeInlineWhitespace(node.textContent))
       .filter(Boolean);
   }
+
+  function arxivWatermark(document) {
+    const text = textFromFirst(document, ["[id^='watermark-']", ".ltx_page_logo"]);
+    const match = text.match(/arXiv:\s*([^\s]+)\s+\[([^\]]+)\]\s+(.+)$/i);
+    return match
+      ? {
+          id: core.normalizeInlineWhitespace(match[1]),
+          category: core.normalizeInlineWhitespace(match[2]),
+          date: core.normalizeInlineWhitespace(match[3]),
+        }
+      : { id: "", category: "", date: "" };
+  }
+
+  function cleanArxivName(node) {
+    const clone = node.cloneNode(true);
+    clone.querySelectorAll("sup, .ltx_author_notes, .ltx_role_affiliation").forEach((item) => item.remove());
+    return core.normalizeInlineWhitespace(clone.textContent).replace(/\s*,\s*$/, "");
+  }
+
+  function arxivAuthors(document) {
+    const authors = [];
+    document.querySelectorAll(".ltx_authors .ltx_creator.ltx_role_author").forEach((creator) => {
+      const person = creator.querySelector(".ltx_personname") || creator;
+      const boldNames = Array.from(
+        person.querySelectorAll(":scope > .ltx_text.ltx_font_bold"),
+      )
+        .map(cleanArxivName)
+        .filter((name) => name && !/^correspondence\s*:?$/i.test(name));
+      if (boldNames.length) {
+        authors.push(...boldNames);
+        return;
+      }
+      const name = cleanArxivName(person);
+      if (name && !/^correspondence\s*:?/i.test(name)) authors.push(name);
+    });
+    return core.unique(authors);
+  }
+
+  function arxivAffiliations(document) {
+    return core.unique(
+      Array.from(
+        document.querySelectorAll(
+          ".ltx_authors .ltx_contact.ltx_role_affiliation, .ltx_authors .ltx_author_notes .ltx_role_affiliation",
+        ),
+      )
+        .map(cleanArxivName)
+        .filter(Boolean),
+    );
+  }
+
+  function arxivIdFromUrl(url) {
+    try {
+      const match = new URL(url).pathname.match(
+        /^\/html\/((?:[a-z.-]+\/\d{7}|\d{4}\.\d{4,5})(?:v\d+)?)\/?$/i,
+      );
+      return match ? match[1] : "";
+    } catch (_error) {
+      return "";
+    }
+  }
+
+  function prepareArxivDocument(document) {
+    const title = textFromFirst(document, ["h1.ltx_title_document", "h1"]);
+    const titlePrefix = title.slice(0, Math.min(80, title.length));
+    if (titlePrefix) {
+      Array.from(document.querySelectorAll("article.ltx_document > .ltx_para")).some((paragraph) => {
+        const text = core.normalizeInlineWhitespace(paragraph.textContent);
+        if (!text.startsWith(titlePrefix)) return false;
+        paragraph.classList.add("paper-md-arxiv-frontmatter-duplicate");
+        return true;
+      });
+    }
+
+    document.querySelectorAll(".ltx_note.ltx_role_footnote").forEach((note) => {
+      if (note.classList.contains("paper-md-arxiv-note-expanded")) return;
+      const markNode = note.querySelector(":scope > .ltx_note_mark");
+      const mark = core.normalizeInlineWhitespace(markNode && markNode.textContent)
+        .replace(/[^0-9A-Za-z*†‡-]/g, "") || "note";
+      const contentNode = note.querySelector(".ltx_note_content");
+      if (!contentNode) return;
+      const clone = contentNode.cloneNode(true);
+      clone.querySelectorAll(".ltx_note_mark, .ltx_tag_note").forEach((item) => item.remove());
+      const content = core.normalizeInlineWhitespace(clone.textContent);
+      if (!content) return;
+      const marker = document.createElement("sup");
+      marker.textContent = mark;
+      const contentWrapper = document.createElement("span");
+      contentWrapper.className = "paper-md-arxiv-footnote-content";
+      while (clone.firstChild) contentWrapper.appendChild(clone.firstChild);
+      note.replaceChildren(
+        marker,
+        document.createTextNode(" (Footnote: "),
+        contentWrapper,
+        document.createTextNode(")"),
+      );
+      note.classList.add("paper-md-arxiv-note-expanded");
+    });
+  }
+
+  const arxivProfile = {
+    publisher: "arXiv",
+    sourcePlatform: "arXiv HTML",
+    titleSelectors: ["h1.ltx_title_document", "h1"],
+    abstractSelectors: [".ltx_abstract"],
+    bodySelectors: ["article.ltx_document", ".ltx_document"],
+    referenceContainerSelectors: [".ltx_bibliography"],
+    referenceEntrySelector: ".ltx_bibitem",
+    referenceNoiseSelectors: ".ltx_tag_bibitem, .ltx_bib_cited",
+    referenceLabel: (entry, index) => {
+      const label = textFromFirst(entry, [".ltx_tag_bibitem"])
+        .replace(/^\s*\[/, "")
+        .replace(/\]\s*$/, "");
+      return label || String(index + 1);
+    },
+    citationTokens: (element) => [element.getAttribute("href") || ""],
+    isCitation: (element) => element.matches('a.ltx_ref[href^="#bib."]'),
+    noiseSelectors: [
+      ".ltx_title_document",
+      ".ltx_authors",
+      ".ltx_title_abstract",
+      ".ltx_bibliography",
+      ".paper-md-arxiv-frontmatter-duplicate",
+    ].join(", "),
+    prepareDocument: prepareArxivDocument,
+    extractAuthors: arxivAuthors,
+    extractAffiliations: arxivAffiliations,
+    extractJournal: () => "arXiv",
+    extractPublicationDate: (document) => arxivWatermark(document).date,
+    extractKeywords: (document) => {
+      const category = arxivWatermark(document).category;
+      return category ? [category] : [];
+    },
+    extractArxivId: (document, url) => arxivWatermark(document).id || arxivIdFromUrl(url),
+    allowBodyDoiFallback: false,
+    countFootnotes: (document) =>
+      document.querySelectorAll(".ltx_note.ltx_role_footnote").length,
+  };
 
   const mdpiProfile = {
     publisher: "MDPI AG",
@@ -617,6 +763,7 @@
   const taylorfrancis = makeExtractor(taylorFrancisProfile);
   const oup = makeExtractor(oupProfile);
   const mitpress = makeExtractor(mitPressProfile);
+  const arxiv = makeExtractor(arxivProfile);
   const sage = makeExtractor(sageProfile);
   const frontiersBase = makeExtractor(frontiersBaseProfile);
 
@@ -806,6 +953,7 @@
   PaperMd.frontiers = frontiersBase;
   PaperMd.oup = oup;
   PaperMd.mitpress = mitpress;
+  PaperMd.arxiv = arxiv;
   PaperMd.ieee = { extract: extractIeee, extractMetadata: ieeeMetadata, prepare: prepareIeee };
   PaperMd.wolterskluwer = makeExtractor(woltersProfile);
   PaperMd.sage = sage;
@@ -817,6 +965,7 @@
       frontiers: PaperMd.frontiers,
       oup: PaperMd.oup,
       mitpress: PaperMd.mitpress,
+      arxiv: PaperMd.arxiv,
       ieee: PaperMd.ieee,
       wolterskluwer: PaperMd.wolterskluwer,
       sage: PaperMd.sage,

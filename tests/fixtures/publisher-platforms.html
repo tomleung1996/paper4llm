@@ -85,6 +85,49 @@
       </body></html>
     </template>
 
+    <template id="arxiv-fixture">
+      <html lang="en"><head>
+        <link rel="canonical" href="https://arxiv.org/html/2607.12345">
+        <title>A representative arXiv HTML paper</title>
+      </head><body>
+        <div id="watermark-tr">arXiv:2607.12345v2 [cs.CL] 30 Jul 2026</div>
+        <article class="ltx_document">
+          <h1 class="ltx_title ltx_title_document">A representative arXiv HTML paper</h1>
+          <div class="ltx_authors">
+            <span class="ltx_creator ltx_role_author">
+              <span class="ltx_personname">
+                <span class="ltx_text ltx_font_bold">Ada Arxiv<sup>1</sup></span>,
+                <span class="ltx_text ltx_font_bold">Ben Beta<sup>2</sup></span>,
+                <span class="ltx_text ltx_font_bold">Correspondence:</span> ada@example.org
+              </span>
+            </span>
+            <span class="ltx_creator ltx_role_author"><span class="ltx_personname">Cara Gamma<sup>3</sup></span></span>
+            <span class="ltx_contact ltx_role_affiliation"><sup>1</sup>Example Institute for Language Models</span>
+            <span class="ltx_contact ltx_role_affiliation"><sup>2,3</sup>Open Research Laboratory</span>
+          </div>
+          <div class="ltx_abstract">
+            <h6 class="ltx_title ltx_title_abstract">Abstract</h6>
+            <p class="ltx_p">This representative abstract verifies that arXiv HTML abstract text is emitted once without duplicating its embedded heading.</p>
+          </div>
+          <div id="p1" class="ltx_para ltx_noindent"><p class="ltx_p">A representative arXiv HTML paper Ada Arxiv, Ben Beta, and Cara Gamma. Duplicate conversion front matter that must not appear in the article body.</p></div>
+          <div id="p2" class="ltx_para ltx_noindent"><p class="ltx_p">This unsectioned introduction must remain in the converted article. It contains enough representative prose to distinguish genuine introductory content from the duplicated title and author block that some arXiv HTML documents place before their numbered sections.</p></div>
+          <section class="ltx_section" id="S1">
+            <h2 class="ltx_title ltx_title_section">1 Introduction</h2>
+            <div class="ltx_para"><p class="ltx_p">arXiv evidence cites prior work <a class="ltx_ref" href="#bib.bib7">[1]</a> and preserves inline mathematics <math class="ltx_Math" display="inline" alttext="x+y"><semantics><mrow><mi>x</mi><mo>+</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x+y</annotation></semantics></math>. This paragraph also contains a footnote<span id="footnote1" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">1</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">1</sup><span class="ltx_tag ltx_tag_note">1</span>The hidden arXiv footnote text must remain readable in Markdown.</span></span></span> and additional prose so the complete body passes the representative content threshold.</p></div>
+            <div class="ltx_equation ltx_eqn_table"><math class="ltx_Math" display="block" alttext="\frac{a}{b}"><semantics><mfrac><mi>a</mi><mi>b</mi></mfrac><annotation encoding="application/x-tex">\frac{a}{b}</annotation></semantics></math></div>
+            <figure class="ltx_figure" id="F1"><img src="/figures/example.png" alt="Representative arXiv figure"><figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 1:</span> A preserved figure caption.</figcaption></figure>
+            <figure class="ltx_table" id="T1"><table><tr><th>Model</th><th>Score</th></tr><tr><td>Paper4LLM</td><td>1.0</td></tr></table><figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 1:</span> A preserved table caption.</figcaption></figure>
+          </section>
+          <section class="ltx_bibliography">
+            <h2 class="ltx_title ltx_title_bibliography">References</h2>
+            <ul class="ltx_biblist">
+              <li id="bib.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_tag_bibitem">[1]</span><span class="ltx_bibblock">Reference Author. A representative reference. DOI: <a class="ltx_bib_external" href="https://doi.org/10.1000/arxiv.reference">10.1000/arxiv.reference</a>.</span><span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#S1">Section 1</a>.</span></li>
+            </ul>
+          </section>
+        </article>
+      </body></html>
+    </template>
+
     <template id="ieee-fixture">
       <html lang="en"><head><link rel="canonical" href="https://ieeexplore.ieee.org/document/1"></head><body>
         <main id="xplMainContentLandmark"><h1 class="document-title">A representative IEEE paper</h1>
